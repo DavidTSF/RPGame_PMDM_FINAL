@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/mainGameFragment"
+    android:layout_height="match_parent"
+    tools:context=".game.MainGameFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/output"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        app:cardCornerRadius="15dp"
+                        android:layout_height="180dp"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:backgroundTint="@color/DarkestGray"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="1.0">
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollIndicators="none"
+                            android:scrollbars="none">
+
+                            <TextView
+                                android:padding="15dp"
+                                android:textSize="20sp"
+                                android:justificationMode="inter_word"
+                                android:id="@+id/mainGameText"
+                                android:fontFamily="@font/augusta"
+                                android:text="Dale al botón y empieza la aventura."
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/BloodRedClearer" />
+                        </ScrollView>
+
+                    </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+
+                <!-- Layout para mostrar vida del enemigo -->
+                <LinearLayout
+                    android:id="@+id/mainGameEnemyOverlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:gravity="start"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <TextView
+                        android:id="@+id/mainGameEnemyName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/augusta"
+                        android:gravity="start"
+                        android:textColor="@color/BloodRed"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        tools:text="Goblin" />
+
+
+                    <ProgressBar
+                        android:id="@+id/mainGameEnemyHp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="180dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progress="100"
+                        android:progressTint="@color/BloodRed"
+                        android:scaleY="2" />
+
+                </LinearLayout>
+
+
+
+                <!-- Layout para mostrar vida del jugador -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:fontFamily="@font/augusta"
+                        android:text="Vida"
+                        android:textColor="@color/EmeraldGreen"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+
+                    <ProgressBar
+                        android:rotation="180"
+                        android:id="@+id/mainGamePlayerHp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="180dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:progressTint="@color/EmeraldGreen"
+                        android:scaleY="2" />
+
+                </LinearLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/layoutForward"
+        android:layout_marginVertical="10dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+
+        <!-- Layout que sale cuando se empieza un combate -->
+        <LinearLayout
+            android:id="@+id/layoutCombat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:gravity="bottom|center">
+
+
+            <LinearLayout
+                android:background="@color/DarkGray"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:gravity="bottom|center">
+
+                <Button
+                    android:id="@+id/mainGameAttack"
+                    style="@style/Widget.MaterialComponents.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:text="Atacar"/>
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <!-- Layout que sale cuando encuentras una trampa -->
+        <LinearLayout
+            android:background="@color/DarkGray"
+            android:id="@+id/layoutTrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/mainGameTryToEscape"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="Trata de escapar!"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+    <!-- Layout de boton avanzar -->
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/layoutForward"
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:gravity="center|bottom"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/DarkGray"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Avanza"
+                android:textColor="@color/PaleWhite" />
+
+            <Button
+                android:id="@+id/mainGameForwardButton"
+                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:maxHeight="60dp"
+                android:padding="0dp"
+                app:icon="@drawable/rsz_arrow_up"
+                app:iconGravity="textTop"
+                app:iconSize="40dp"
+                app:iconTint="@color/PaleWhite">
+
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

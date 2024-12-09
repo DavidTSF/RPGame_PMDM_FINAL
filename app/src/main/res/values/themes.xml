@@ -1,0 +1,67 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <!-- Base application theme. -->
+    <style name="Base.Theme.RPGDungeon" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/DarkestGray</item>
+        <item name="colorOnPrimary">@color/PaleWhite</item>
+        <item name="colorSecondary">@color/EmeraldGreen</item>
+        <item name="colorOnSecondary">@color/DarkGray</item>
+        <item name="colorAccent">@color/BloodRed</item>
+        <item name="android:colorBackground">@color/DarkestGray</item>
+        <item name="android:navigationBarColor">@color/DarkGray</item>
+        <item name="android:statusBarColor">@color/DarkGray</item>
+        <item name="android:textColor">@color/PaleWhite</item>
+    </style>
+
+    <!-- EditText global style -->
+    <style name="EditTextStyle" >
+        <item name="android:background">@color/DarkGray</item> <!-- Fondo oscuro -->
+        <!-- Texto dentro del EditText -->
+        <item name="android:textColor">@color/PaleWhite</item> <!-- Texto claro para visibilidad -->
+        <!-- Hint (texto de sugerencia cuando el campo está vacío) -->
+        <item name="android:textColorHint">@color/MediumGray</item> <!-- Hint más suave -->
+        <!-- Color del cursor -->
+        <!-- Padding para mejorar la legibilidad -->
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <!-- Inventory List Style -->
+    <style name="inventoryItemList">
+        <item name="android:background">@color/DarkGray</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/PaleWhite</item> <!-- Asegurando que el texto sea visible -->
+    </style>
+
+    <style name="inventoryItemList.item">
+        <item name="android:background">@color/MediumGray</item> <!-- Fondo oscuro intermedio -->
+        <item name="android:textColor">@color/PaleWhite</item> <!-- Texto claro -->
+        <item name="android:padding">4dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Fragment Style -->
+    <style name="fragmentStyle">
+        <item name="android:background">@color/DarkestGray</item>
+    </style>
+
+    <!-- Bottom Navigation View Style -->
+    <style name="BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemBackground">@drawable/drawable_selector</item>
+        <item name="itemTextColor">@drawable/bottom_nav_text_color_state</item>
+        <item name="itemIconTint">@drawable/bottom_nav_text_color_state</item>
+        <item name="enforceTextAppearance">true</item>
+        <item name="enforceMaterialTheme">true</item>
+        <item name="android:background">@color/DarkGray</item>
+        <item name="itemTextAppearanceInactive">?attr/textAppearanceCaption</item>
+        <item name="itemTextAppearanceActive">?attr/textAppearanceHeadline6</item>
+        <item name="itemActiveIndicatorStyle">@style/ShapeAppearance.Material3.Corner.None</item>
+    </style>
+
+    <!-- Main Theme -->
+    <style name="Theme.RPGDungeon" parent="Base.Theme.RPGDungeon" />
+</resources>

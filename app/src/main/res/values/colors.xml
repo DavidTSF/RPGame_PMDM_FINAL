@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color> <!-- Negro absoluto -->
+    <color name="white">#FFFFFFFF</color> <!-- Blanco absoluto -->
+
+    <color name="DarkestGray">#1C1C1C</color> <!-- Fondo principal oscuro, ligeramente más claro para evitar fatiga visual -->
+    <color name="DarkGray">#2E2E2E</color> <!-- Paredes y estructuras -->
+    <color name="MediumGray">#464646</color> <!-- Fondos secundarios o elementos intermedios -->
+    <color name="BrownStone">#5E3A2C</color> <!-- Elementos de madera o roca -->
+    <color name="EmeraldGreen">#3CB371</color> <!-- Magia verde o venenos, ajustado para mayor claridad -->
+    <color name="BloodRedClearer">#E78383</color>
+    <color name="BloodRed">#A52A2A</color> <!-- Efectos de daño o enemigos, más vibrante -->
+    <color name="GoldenYellow">#DAA520</color> <!-- Cofres y artefactos, más luminoso -->
+    <color name="MysticBlue">#4682B4</color> <!-- Magia de agua o portales, más tenue para menos saturación -->
+    <color name="VioletMagic">#9370DB</color> <!-- Efectos mágicos oscuros, ajustado para contraste -->
+    <color name="PaleWhite">#E8E8E8</color> <!-- Texto claro, ligeramente más oscuro para no ser blanco puro -->
+
+    <!-- Colores adicionales para destacar textos e íconos -->
+    <color name="TextHighlight">#A0D8E8</color> <!-- Azul claro para destacar textos importantes -->
+    <color name="TextWarning">#FFA07A</color> <!-- Naranja suave para advertencias -->
+</resources>

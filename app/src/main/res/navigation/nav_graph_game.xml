@@ -1,0 +1,45 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_game"
+    app:startDestination="@id/mainGameFragment">
+
+    <fragment
+        android:id="@+id/mainGameFragment"
+        android:name="dev.davidvega.rpgame.game.MainGameFragment"
+        tools:layout="@layout/fragment_main_game"
+        android:label="Home">
+        <action
+            android:id="@+id/action_mainGameFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_mainGameFragment_to_characterFragment"
+            app:destination="@id/characterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="dev.davidvega.rpgame.game.InventoryFragment"
+        tools:layout="@layout/fragment_inventory"
+        android:label="Inventory" >
+        <action
+            android:id="@+id/action_inventoryFragment_to_mainGameFragment"
+            app:destination="@id/mainGameFragment" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_characterFragment"
+            app:destination="@id/characterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/characterFragment"
+        android:name="dev.davidvega.rpgame.game.CharacterFragment"
+        tools:layout="@layout/fragment_character"
+        android:label="Character" >
+        <action
+            android:id="@+id/action_characterFragment_to_mainGameFragment"
+            app:destination="@id/mainGameFragment" />
+        <action
+            android:id="@+id/action_characterFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
+    </fragment>
+</navigation>
