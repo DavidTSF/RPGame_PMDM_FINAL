@@ -80,10 +80,9 @@ public class GameViewModel extends AndroidViewModel {
                         EncounterModel.ResolveData resolveData = bg.resolveData; // Asume que bg ahora tiene una instancia de ResolveData
                         String combatMessage = resolveData.combatMessage;
 
-                        // Actualizar la descripción del encuentro
+                        // Actualizar la descripción del encuentro y añadir los daños
                         String updatedDescription = getEncounter().getValue().getDescription() + "\n" + combatMessage;
                         getEncounter().getValue().setDescription(updatedDescription);
-
 
                         calculateDamage.postValue(true);
                         attackLock.postValue(false);

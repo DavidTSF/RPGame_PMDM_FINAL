@@ -71,7 +71,7 @@ public class LoginFragment extends Fragment {
 
                     } else {
                         gameViewModel.getUser().postValue(user);
-                        navController.navigate(R.id.GameFragment);
+                        navController.navigate(R.id.gameFragment);
                     }
                 }
             }

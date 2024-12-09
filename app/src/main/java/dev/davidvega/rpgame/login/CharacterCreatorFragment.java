@@ -103,9 +103,9 @@ public class CharacterCreatorFragment extends Fragment {
             @Override
             public void onChanged(Boolean passToGame) {
                 if ( passToGame ) {
-                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                         gameViewModel.getUser().setValue(loginViewModel.getCurrentUser().getValue().user);
-                        navController.navigate(R.id.GameFragment);
+                        navController.navigate(R.id.gameFragment);
                     }
                 }
         });

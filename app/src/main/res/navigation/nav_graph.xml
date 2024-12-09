@@ -16,7 +16,7 @@
             app:destination="@id/characterCreatorFragment" />
         <action
             android:id="@+id/action_loginFragment_to_fragmentApplication"
-            app:destination="@id/GameFragment" />
+            app:destination="@id/gameFragment" />
     </fragment>
 
     <fragment
@@ -26,14 +26,19 @@
         tools:layout="@layout/fragment_character_creator" >
         <action
             android:id="@+id/action_characterCreatorFragment_to_fragmentApplication"
-            app:destination="@id/GameFragment" />
+            app:destination="@id/gameFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/GameFragment"
+        android:id="@+id/gameFragment"
         android:name="dev.davidvega.rpgame.game.GameFragment"
         android:label="fragment_game_fragment"
         tools:layout="@layout/fragment_game">
+
+
+        <action
+            android:id="@+id/action_gameFragment_to_characterCreatorFragment"
+            app:destination="@id/characterCreatorFragment" />
     </fragment>
 
 

@@ -46,6 +46,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     public static class UserStatus {
         public boolean loggedIn;
+        public boolean hasDied = false;
         public User user;
         public boolean hasToCreateCharacter;
         public UserStatus(boolean loggedIn, User user, boolean hasToCreateCharacter) {

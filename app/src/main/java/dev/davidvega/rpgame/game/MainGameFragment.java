@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -90,8 +91,14 @@ public class MainGameFragment extends Fragment {
             @Override
             public void onChanged(Boolean isDead) {
                 if ( isDead ) {
-                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                    navController.navigate(R.id.loginFragment);
+                    Log.d("DEBUG_GAME", "Player is dead, maingamefragment");
+
+                    //NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.gameFragment);
+                    //NavController navController = navHostFragment.getNavController();
+                    //navController.navigate(R.id.loginFragment);
+
+                    //NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                    //navController.navigate(R.id.loginFragment);
                 }
             }
         });
