@@ -97,8 +97,6 @@ public class CharacterCreatorFragment extends Fragment {
                 );
         });
 
-
-
         loginViewModel.getPassToGame().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean passToGame) {
@@ -106,6 +104,7 @@ public class CharacterCreatorFragment extends Fragment {
                         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                         gameViewModel.getUser().setValue(loginViewModel.getCurrentUser().getValue().user);
                         navController.navigate(R.id.gameFragment);
+                        loginViewModel.getPassToGame().postValue(false);
                     }
                 }
         });

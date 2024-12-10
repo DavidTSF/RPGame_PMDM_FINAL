@@ -12,8 +12,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +22,7 @@ import android.widget.Button;
 
 import dev.davidvega.rpgame.R;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
+import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
 import dev.davidvega.rpgame.databinding.FragmentMainGameBinding;
 import dev.davidvega.rpgame.game.encounter.Encounter;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
@@ -31,6 +32,8 @@ public class MainGameFragment extends Fragment {
     FragmentMainGameBinding binding;
 
     GameViewModel gameViewModel;
+    LoginViewModel loginViewModel;
+
 
     PlayerCharacter playerCharacter;
     Encounter currentEncounter;
@@ -41,9 +44,37 @@ public class MainGameFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         gameViewModel = new ViewModelProvider(requireActivity()).get(GameViewModel.class);
+        loginViewModel = new ViewModelProvider(requireActivity()).get(LoginViewModel.class);
+
+        gameViewModel.getPlayerDead().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isDead) {
+                if ( isDead ) {
+                    Log.d("DEBUG_GAME", "Player is dead, maingamefragment");
+                    gameViewModel.getPlayerDead().postValue(false);
+                    loginViewModel.getHasDied().postValue(true);
+
+                    // Crear un temporizador de 3 segundos
+                    binding.deadText.setVisibility(View.VISIBLE);
+                    new CountDownTimer(3000, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                            binding.deadText.setText("¡Has sido derrotado!\nVolverás al creador de personajes en:\n" + millisUntilFinished / 1000);
+                        }
+
+                        public void onFinish() {
+                            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
+                            navController.navigate(R.id.characterCreatorFragment);
+                            binding.deadText.setVisibility(View.INVISIBLE);
+                            navController.clearBackStack(R.id.mainGameFragment);
+                        }
+                    }.start();
+
+                }
+            }
+        });
         return (binding = FragmentMainGameBinding.inflate(inflater, container, false)).getRoot();
     }
 
@@ -87,28 +118,14 @@ public class MainGameFragment extends Fragment {
         });
 
 
-        gameViewModel.getPlayerDead().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isDead) {
-                if ( isDead ) {
-                    Log.d("DEBUG_GAME", "Player is dead, maingamefragment");
 
-                    //NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.gameFragment);
-                    //NavController navController = navHostFragment.getNavController();
-                    //navController.navigate(R.id.loginFragment);
-
-                    //NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                    //navController.navigate(R.id.loginFragment);
-                }
-            }
-        });
 
         gameViewModel.getUser().getValue().getPlayerdataLiveData().observe(getViewLifecycleOwner(), new Observer<PlayerCharacter>() {
             @Override
             public void onChanged(PlayerCharacter user) {
                 if ( user != null ) {
                     binding.mainGamePlayerHp.setProgress( user.getHp() );
-                    binding.mainGamePlayerHp.setMax( user.getMaxhp() );
+                    binding.mainGamePlayerHp.setMax( user.getMaxHp() );
                 }
             }
         });

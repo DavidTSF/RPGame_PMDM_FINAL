@@ -60,33 +60,7 @@ public class GameFragment extends Fragment {
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
-        gameViewModel.getPlayerDead().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isDead) {
-                if ( isDead ) {
-                    Log.d("DEBUG_GAME", "Player is dead");
-                    gameViewModel.getPlayerDead().postValue(false);
 
-                    NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                    navController.navigate(R.id.characterCreatorFragment);
-
-                    //NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-
-                    //FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    //transaction.replace(R.id.nav_host_fragment, new LoginFragment());
-                    //transaction.commit();
-
-                    //FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    //transaction.replace(R.id.nav_host_fragment, new LoginFragment());
-                    //transaction.addToBackStack(null);
-
-
-                    //NavController navControll = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
-                    //navControll.popBackStack(R.id.loginFragment, true);
-
-                }
-            }
-        });
 
 
 

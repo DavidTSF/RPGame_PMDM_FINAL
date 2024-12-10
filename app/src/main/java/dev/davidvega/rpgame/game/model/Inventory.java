@@ -36,4 +36,17 @@ public class Inventory implements Serializable {
     public void setInventoryList(List<Item> inventoryList) {
         this.inventoryList = inventoryList;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Inventory {")
+                .append("\n  Items: ")
+                .append(inventoryList.isEmpty() ? "No items" : "\n    " + inventoryList.stream()
+                        .map(Item::toString)
+                        .collect(Collectors.joining("\n    ")))
+                .append("\n}");
+        return sb.toString();
+    }
+
 }

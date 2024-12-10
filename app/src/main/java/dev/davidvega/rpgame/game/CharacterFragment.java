@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import dev.davidvega.rpgame.R;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
-import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
 import dev.davidvega.rpgame.databinding.FragmentCharacterBinding;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 
@@ -47,11 +44,11 @@ public class CharacterFragment extends Fragment {
                     binding.characterName.setText("Nombre: " + user.getName());
                     binding.characterClass.setText("Clase: " + user.getPlayerClass().getName());
                     binding.characterLevel.setText("Nivel: " + user.getLevel());
-                    binding.characterHP.setMax(user.getMaxhp());
+                    binding.characterHP.setMax(user.getMaxHp());
                     binding.characterHP.setProgress(user.getHp());
                     binding.characterMana.setProgress(user.getMana());
                     binding.characterHPCurrentAndMax.setText(
-                            user.getHp() + " / " + user.getMaxhp()
+                            user.getHp() + " / " + user.getMaxHp()
                     );
                     binding.characterStrength.setText("Fuerza: " + user.getStrength());
                     binding.characterDexterity.setText("Destreza: " + user.getDexterity());

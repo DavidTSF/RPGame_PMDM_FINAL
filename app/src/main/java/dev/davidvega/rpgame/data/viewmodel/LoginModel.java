@@ -20,9 +20,10 @@ public class LoginModel {
                 playerCharacter.setDexterity(6);
                 playerCharacter.setStrength(8);
 
-                playerCharacter.setMaxhp(10);
+                playerCharacter.setMaxHp(10);
                 playerCharacter.setHp(10);
                 playerCharacter.setDefense(8);
+                playerCharacter.setMaxMana(4);
                 playerCharacter.setMana(4);
                 break;
             case Rogue:
@@ -30,9 +31,10 @@ public class LoginModel {
                 playerCharacter.setDexterity(8);
                 playerCharacter.setStrength(6);
 
-                playerCharacter.setMaxhp(9);
+                playerCharacter.setMaxHp(9);
                 playerCharacter.setHp(9);
                 playerCharacter.setDefense(6);
+                playerCharacter.setMaxMana(6);
                 playerCharacter.setMana(6);
                 break;
             case Mage:
@@ -40,9 +42,10 @@ public class LoginModel {
                 playerCharacter.setDexterity(6);
                 playerCharacter.setStrength(4);
 
-                playerCharacter.setMaxhp(8);
+                playerCharacter.setMaxHp(8);
                 playerCharacter.setHp(8);
                 playerCharacter.setDefense(6);
+                playerCharacter.setMaxMana(10);
                 playerCharacter.setMana(10);
                 break;
         }

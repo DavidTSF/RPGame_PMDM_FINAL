@@ -18,5 +18,8 @@ public interface LoginApiService {
     @POST("createuser/{username}")
     Call<ApiResponse> createUser(@Path("username") String username, @Body PlayerCharacter playerData);
 
+    @POST("updateuser/{username}")
+    Call<ApiResponse> updateUser(@Path("username") String username, @Body PlayerCharacter playerData);
+
 
 }

@@ -38,7 +38,10 @@
 
         <action
             android:id="@+id/action_gameFragment_to_characterCreatorFragment"
-            app:destination="@id/characterCreatorFragment" />
+            app:destination="@id/characterCreatorFragment"
+            app:popUpTo="@+id/characterCreatorFragment"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
 

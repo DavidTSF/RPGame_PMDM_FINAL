@@ -1,4 +1,6 @@
 package dev.davidvega.rpgame.data.model;
+import androidx.annotation.NonNull;
+
 import dev.davidvega.rpgame.game.model.Item;
 
 public class Weapon implements Item {
@@ -89,5 +91,20 @@ public class Weapon implements Item {
     public static Weapon parseWeapon(Item item) {
         return (Weapon) item;
     }
+
+    @NonNull
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Weapon {")
+                .append("\n  ID: ").append(id_weapon)
+                .append("\n  Name: ").append(name)
+                .append("\n  Level: ").append(level)
+                .append("\n  Base Damage: ").append(base_damage)
+                .append("\n  Description: ").append(description)
+                .append("\n  Image: ").append(image != null ? "Image present" : "No image")
+                .append("\n}");
+        return sb.toString();
+    }
+
 
 }

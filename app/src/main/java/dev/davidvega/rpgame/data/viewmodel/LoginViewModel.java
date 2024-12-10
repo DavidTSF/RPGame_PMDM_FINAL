@@ -33,7 +33,7 @@ public class LoginViewModel extends AndroidViewModel {
 
     MutableLiveData<UserStatus> currentUser = new MutableLiveData<>();
     MutableLiveData<Boolean> passToGame = new MutableLiveData<>(false);
-
+    MutableLiveData<Boolean> hasDied = new MutableLiveData<>(false);
 
     public static class RawUser {
         boolean exists;
@@ -46,7 +46,6 @@ public class LoginViewModel extends AndroidViewModel {
 
     public static class UserStatus {
         public boolean loggedIn;
-        public boolean hasDied = false;
         public User user;
         public boolean hasToCreateCharacter;
         public UserStatus(boolean loggedIn, User user, boolean hasToCreateCharacter) {
@@ -116,17 +115,42 @@ public class LoginViewModel extends AndroidViewModel {
             public void run() {
                 User user = getCurrentUser().getValue().user;
 
+                Boolean playerGotKilled = hasDied.getValue();
+
+                Log.d("DEBUG_CHARACTER_CREATOR", playerGotKilled ? "Ha muerto y a vuelto" : "No ha muerto, acaba de llegar");
+                Log.d("DEBUG_CHARACTER_CREATOR", user.toString());
+
                 if (user.getPlayerCharacter() == null) {
                     user.setPlayerCharacter(PlayerCharacter.baseCharacter(charName));
                 }
 
-                user.getPlayerCharacter().setPlayerClass(clase);
+                if (user.getPlayerCharacter().getPlayerClass() == null) {
+                    user.getPlayerCharacter().setPlayerClass(clase);
+                }
+                if ( playerGotKilled ) {
 
-                loginModel.createCharacterWithClass(user, charName, updatedUser -> {
-                    currentUser.postValue(new UserStatus(true, updatedUser, false));
+                    user.setPlayerCharacter(PlayerCharacter.baseCharacter(charName));
+                    user.getPlayerCharacter().setPlayerClass(clase);
 
-                    createUser(user);
-                });
+                    loginModel.createCharacterWithClass(user, charName, updatedUser -> {
+                        currentUser.postValue(new UserStatus(true, updatedUser, false));
+
+                        updateUserAfterDeath(updatedUser);
+                    });
+
+                } else {
+
+                    user.getPlayerCharacter().setPlayerClass(clase);
+
+                    loginModel.createCharacterWithClass(user, charName, updatedUser -> {
+                        currentUser.postValue(new UserStatus(true, updatedUser, false));
+
+                        createUser(updatedUser);
+                    });
+
+                }
+
+
             }
         });
     }
@@ -141,7 +165,32 @@ public class LoginViewModel extends AndroidViewModel {
 
         Log.d("DEBUG_LOGIN", "User name:"+ user.getUsername() );
         Log.d("DEBUG_LOGIN", "User char name:"+ user.getPlayerdataLiveData().getValue().getName() );
+
+
         Call<ApiResponse> createUserCall = service.createUser(user.getUsername(), user.getPlayerCharacter());
+        createUserCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                passToGame.postValue(true);
+            }
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.d("Error", "NO SE HA CREAR EL USUARIO" + t.toString());
+            }
+        });
+    }
+
+    public void updateUserAfterDeath( User user ) {
+        if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
+            Log.d("DEBUG_LOGIN", "No existe los datos de usuario, de mirar...");
+            return;
+        }
+
+        Log.d("DEBUG_LOGIN", "User name:"+ user.getUsername() );
+        Log.d("DEBUG_LOGIN", "User char name:"+ user.getPlayerdataLiveData().getValue().getName() );
+
+
+        Call<ApiResponse> createUserCall = service.updateUser(user.getUsername(), user.getPlayerCharacter());
         createUserCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -165,5 +214,13 @@ public class LoginViewModel extends AndroidViewModel {
 
     public MutableLiveData<Boolean> getPassToGame() {
         return passToGame;
+    }
+
+    public MutableLiveData<Boolean> getHasDied() {
+        return hasDied;
+    }
+
+    public void setHasDied(MutableLiveData<Boolean> hasDied) {
+        this.hasDied = hasDied;
     }
 }

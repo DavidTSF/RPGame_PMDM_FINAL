@@ -1,5 +1,7 @@
 package dev.davidvega.rpgame.game.model;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 import dev.davidvega.rpgame.data.model.Weapon;
@@ -10,9 +12,10 @@ public class PlayerCharacter implements Serializable, GameEntity {
     String name;
     int level;
 
-    int maxhp;
+    int maxHp;
     int hp;
     int defense;
+    int maxMana;
     int mana;
 
     int strength;
@@ -36,10 +39,10 @@ public class PlayerCharacter implements Serializable, GameEntity {
         this.level = level;
     }
 
-    public PlayerCharacter(String name, int level, int maxhp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Inventory inventory) {
+    public PlayerCharacter(String name, int level, int maxHp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Inventory inventory) {
         this.name = name;
         this.level = level;
-        this.maxhp = maxhp;
+        this.maxHp = maxHp;
         this.hp = hp;
         this.defense = defense;
         this.mana = mana;
@@ -49,10 +52,10 @@ public class PlayerCharacter implements Serializable, GameEntity {
         this.inventory = inventory;
     }
 
-    public PlayerCharacter(String name, int level, int maxhp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Weapon currentWeapon, Inventory inventory) {
+    public PlayerCharacter(String name, int level, int maxHp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Weapon currentWeapon, Inventory inventory) {
         this.name = name;
         this.level = level;
-        this.maxhp = maxhp;
+        this.maxHp = maxHp;
         this.hp = hp;
         this.defense = defense;
         this.mana = mana;
@@ -70,11 +73,12 @@ public class PlayerCharacter implements Serializable, GameEntity {
         pc.setLevel(1);
 
         pc.setHp(10);
-        pc.setMaxhp(10);
+        pc.setMaxHp(10);
+
+        pc.setMana(5);
+        pc.setMaxMana(5);
 
         pc.setDefense(5);
-        pc.setMana(5);
-
         pc.setDexterity(5);
         pc.setStrength(5);
         pc.setIntelligence(5);
@@ -196,19 +200,48 @@ public class PlayerCharacter implements Serializable, GameEntity {
         this.playerClass = playerClass;
     }
 
-    public int getMaxhp() {
-        return maxhp;
+    public int getMaxHp() {
+        return maxHp;
     }
 
-    public void setMaxhp(int maxhp) {
-        this.maxhp = maxhp;
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
     }
 
     public Weapon getCurrentWeapon() {
         return currentWeapon;
     }
 
+    public int getMaxMana() {
+        return maxMana;
+    }
+
+    public void setMaxMana(int maxMana) {
+        this.maxMana = maxMana;
+    }
+
     public void setCurrentWeapon(Weapon currentWeapon) {
         this.currentWeapon = currentWeapon;
     }
+
+    @NonNull
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("PlayerCharacter {")
+                .append("\n    Name: ").append(name)
+                .append("\n    Class: ").append(playerClass)
+                .append("\n    Level: ").append(level)
+                .append("\n    HP: ").append(hp).append("/").append(maxHp)
+                .append("\n    Mana: ").append(mana).append("/").append(maxMana)
+                .append("\n    Defense: ").append(defense)
+                .append("\n    Strength: ").append(strength)
+                .append("\n    Dexterity: ").append(dexterity)
+                .append("\n    Intelligence: ").append(intelligence)
+                .append("\n    Current Weapon: ").append(currentWeapon != null ? currentWeapon : "None")
+                .append("\n    Inventory: ").append(inventory != null ? inventory : "Empty")
+                .append("\n}");
+        return sb.toString();
+    }
+
+
 }

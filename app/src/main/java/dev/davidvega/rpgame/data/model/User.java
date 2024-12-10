@@ -1,5 +1,6 @@
 package dev.davidvega.rpgame.data.model;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
@@ -46,4 +47,18 @@ public class User implements Serializable {
     public void setPlayerdataLiveData(MutableLiveData<PlayerCharacter> playerdata) {
         this.playerCharacter = playerdata;
     }
+
+    @NonNull
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("User {")
+                .append("\n  Username: ").append(username != null ? username : "No username")
+                .append("\n  PlayerCharacter: ")
+                .append(playerCharacter.getValue() != null ? playerCharacter.getValue().toString() : "No character assigned")
+                .append("\n}");
+        return sb.toString();
+    }
+
+
 }
+
