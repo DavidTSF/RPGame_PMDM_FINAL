@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import dev.davidvega.rpgame.data.model.Weapon;
+import dev.davidvega.rpgame.game.model.Weapon;
 import dev.davidvega.rpgame.data.model.WeaponList;
 import dev.davidvega.rpgame.game.encounter.Encounter;
 import dev.davidvega.rpgame.game.model.Item;

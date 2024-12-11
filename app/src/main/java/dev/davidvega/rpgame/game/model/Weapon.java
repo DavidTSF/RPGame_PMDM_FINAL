@@ -1,7 +1,5 @@
-package dev.davidvega.rpgame.data.model;
+package dev.davidvega.rpgame.game.model;
 import androidx.annotation.NonNull;
-
-import dev.davidvega.rpgame.game.model.Item;
 
 public class Weapon implements Item {
     public int id_weapon;

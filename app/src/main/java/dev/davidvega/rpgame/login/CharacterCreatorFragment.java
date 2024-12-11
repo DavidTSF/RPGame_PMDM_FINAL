@@ -77,7 +77,6 @@ public class CharacterCreatorFragment extends Fragment {
 
         binding.characterCreatorButtonCreate.setEnabled(true);  // Asegúrate de que el botón esté habilitado inicialmente.
 
-
         loginViewModel.getCurrentUser().observe(getViewLifecycleOwner(), userStatus -> {
             if (userStatus != null) {
                 if (userStatus.user.getPlayerCharacter() != null) {

@@ -19,12 +19,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import dev.davidvega.rpgame.R;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
 import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
 import dev.davidvega.rpgame.databinding.FragmentMainGameBinding;
 import dev.davidvega.rpgame.game.encounter.Encounter;
+import dev.davidvega.rpgame.game.model.Item;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 
 
@@ -56,7 +59,7 @@ public class MainGameFragment extends Fragment {
                     Log.d("DEBUG_GAME", "Player is dead, maingamefragment");
                     gameViewModel.getPlayerDead().postValue(false);
                     loginViewModel.getHasDied().postValue(true);
-
+                    binding.mainGamePlayerHp.setProgress( 0 );
                     // Crear un temporizador de 3 segundos
                     binding.deadText.setVisibility(View.VISIBLE);
                     new CountDownTimer(3000, 1000) {
@@ -150,8 +153,15 @@ public class MainGameFragment extends Fragment {
             }
         });
 
-
-
+        gameViewModel.getWonEncounter().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean wonEncounter) {
+                if ( wonEncounter ) {
+                    gameViewModel.getWonEncounter().setValue(false);
+                    giveReward();
+                }
+            }
+        });
 
         // Por cada encuentro que se genere o si se cambia el fragmento para que se quede guardado
         gameViewModel.getEncounter().observe(getViewLifecycleOwner(), new Observer<Encounter>() {
@@ -164,9 +174,6 @@ public class MainGameFragment extends Fragment {
                 }
             }
         });
-
-
-
         gameViewModel.getEncounterLocked().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean encounterLocked) {
@@ -189,6 +196,10 @@ public class MainGameFragment extends Fragment {
 
     }
 
+    private void giveReward() {
+        Item item = gameViewModel.rewardPlayer();
+        Toast.makeText(getContext(), "Nombre de item: " + item.getItemName(), Toast.LENGTH_SHORT).show();
+    }
 
 
     public void newEncounter(Encounter encounter){

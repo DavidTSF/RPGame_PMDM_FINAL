@@ -1,10 +1,10 @@
 package dev.davidvega.rpgame.game.model;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
 
-import dev.davidvega.rpgame.data.model.Weapon;
 import dev.davidvega.rpgame.login.Clase;
 
 public class PlayerCharacter implements Serializable, GameEntity {
@@ -22,10 +22,9 @@ public class PlayerCharacter implements Serializable, GameEntity {
     int dexterity;
     int intelligence;
 
-
     Weapon currentWeapon = new Weapon(0, "puños", 0, 1, "Tienes tus puños...", null );
 
-    Inventory inventory = new Inventory();
+    MutableLiveData<Inventory> inventory = new MutableLiveData<>(new Inventory());
 
     public PlayerCharacter() {
 
@@ -49,7 +48,7 @@ public class PlayerCharacter implements Serializable, GameEntity {
         this.strength = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;
-        this.inventory = inventory;
+        this.inventory.postValue(inventory);
     }
 
     public PlayerCharacter(String name, int level, int maxHp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Weapon currentWeapon, Inventory inventory) {
@@ -63,7 +62,7 @@ public class PlayerCharacter implements Serializable, GameEntity {
         this.dexterity = dexterity;
         this.intelligence = intelligence;
         this.currentWeapon = currentWeapon;
-        this.inventory = inventory;
+        this.inventory.postValue(inventory);
     }
 
     public static PlayerCharacter baseCharacter ( String name ) {
@@ -83,7 +82,7 @@ public class PlayerCharacter implements Serializable, GameEntity {
         pc.setStrength(5);
         pc.setIntelligence(5);
 
-        pc.setInventory(new Inventory());
+        pc.inventory.postValue(new Inventory());
 
         return pc;
     }
@@ -143,7 +142,6 @@ public class PlayerCharacter implements Serializable, GameEntity {
         return hp;
     }
 
-
     public int getDefense() {
         return defense;
     }
@@ -185,10 +183,14 @@ public class PlayerCharacter implements Serializable, GameEntity {
     }
 
     public Inventory getInventory() {
+        return inventory.getValue();
+    }
+
+    public MutableLiveData<Inventory> getInventoryLiveData() {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
+    public void setInventory(MutableLiveData<Inventory> inventory) {
         this.inventory = inventory;
     }
 

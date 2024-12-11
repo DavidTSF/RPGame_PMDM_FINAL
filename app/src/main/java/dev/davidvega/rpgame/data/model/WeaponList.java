@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import dev.davidvega.rpgame.game.model.Weapon;
+
 public class WeaponList {
     @SerializedName("weapons")
     @Expose

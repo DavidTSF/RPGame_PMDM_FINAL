@@ -48,6 +48,7 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+        gameViewModel.getAllItemsFromDatabase(getContext());
 
 
         TextView userEntry = binding.loginUsername;
@@ -56,6 +57,7 @@ public class LoginFragment extends Fragment {
         button.setOnClickListener(view1 -> {
             loginViewModel.userLogin(userEntry.getText().toString());
         });
+
 
         loginViewModel.getCurrentUser().observe(getViewLifecycleOwner(), new Observer<LoginViewModel.UserStatus>() {
             @Override

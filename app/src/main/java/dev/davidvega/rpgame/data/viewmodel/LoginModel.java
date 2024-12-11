@@ -2,6 +2,7 @@ package dev.davidvega.rpgame.data.viewmodel;
 
 import dev.davidvega.rpgame.data.model.User;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
+import dev.davidvega.rpgame.login.Clase;
 
 public class LoginModel {
 
@@ -12,9 +13,10 @@ public class LoginModel {
     public void createCharacterWithClass(User user, String characterName, LoginCallback loginCallback) {
 
         PlayerCharacter playerCharacter = PlayerCharacter.baseCharacter(characterName);
-        playerCharacter.setPlayerClass(user.getPlayerCharacter().getPlayerClass());
+        Clase clase = user.getPlayerCharacter().getPlayerClass();
+        playerCharacter.setPlayerClass(clase);
 
-        switch ( user.getPlayerCharacter().getPlayerClass() ) {
+        switch ( clase ) {
             case Warrior:
                 playerCharacter.setIntelligence(4);
                 playerCharacter.setDexterity(6);

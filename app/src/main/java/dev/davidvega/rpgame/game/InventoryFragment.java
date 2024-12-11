@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import dev.davidvega.rpgame.R;
-import dev.davidvega.rpgame.data.model.Weapon;
+import dev.davidvega.rpgame.game.model.Weapon;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
 import dev.davidvega.rpgame.databinding.FragmentInventoryBinding;
 import dev.davidvega.rpgame.databinding.ViewholderItemBinding;
@@ -52,7 +52,6 @@ public class InventoryFragment extends Fragment {
         binding.itemRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         binding.itemRecyclerView.setAdapter(itemAdapter);
 
-        gameModelView.getAllItemsFromDatabase(getContext());
 
         gameModelView.getInventory().observe(getViewLifecycleOwner(), new Observer<Inventory>() {
             @Override

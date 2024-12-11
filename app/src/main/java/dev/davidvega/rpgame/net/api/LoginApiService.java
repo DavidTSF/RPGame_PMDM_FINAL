@@ -16,10 +16,10 @@ public interface LoginApiService {
     Call<LoginViewModel.RawUser> getUserData(@Path("username") String username);
 
     @POST("createuser/{username}")
-    Call<ApiResponse> createUser(@Path("username") String username, @Body PlayerCharacter playerData);
+    Call<ApiResponse> createUser(@Path("username") String username, @Body PlayerDataPrimitive playerData);
 
     @POST("updateuser/{username}")
-    Call<ApiResponse> updateUser(@Path("username") String username, @Body PlayerCharacter playerData);
+    Call<ApiResponse> updateUser(@Path("username") String username, @Body PlayerDataPrimitive playerData);
 
 
 }

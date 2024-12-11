@@ -8,11 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import dev.davidvega.rpgame.data.model.Weapon;
 import dev.davidvega.rpgame.game.encounter.Encounter;
 import dev.davidvega.rpgame.game.encounter.Enemy;
 import dev.davidvega.rpgame.game.model.Inventory;
@@ -20,7 +21,6 @@ import dev.davidvega.rpgame.game.model.Item;
 import dev.davidvega.rpgame.data.model.User;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 import dev.davidvega.rpgame.net.api.RPGApiService;
-import dev.davidvega.rpgame.utils.ImageUtils;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,8 +28,12 @@ public class GameViewModel extends AndroidViewModel {
 
     Executor executor;
 
-    MutableLiveData<User> user = new MutableLiveData<>();
+    MutableLiveData<User> user = new MutableLiveData<>(new User());
     MutableLiveData<Encounter> encounter = new MutableLiveData<>();
+    MutableLiveData<Inventory> inventory = user.getValue().getPlayerCharacter().getInventoryLiveData();
+
+
+    MutableLiveData<List<Item>> itemsGame = new MutableLiveData<>(new ArrayList<>());
 
     GameModel gameModel;
     EncounterModel encounterModel;
@@ -40,15 +44,11 @@ public class GameViewModel extends AndroidViewModel {
     MutableLiveData<Boolean> playerDead = new MutableLiveData<>(false);
     MutableLiveData<Boolean> attackLock = new MutableLiveData<>();
     MutableLiveData<Boolean> buttonVisible = new MutableLiveData<>(true);
-
-
-
+    MutableLiveData<Boolean> wonEncounter = new MutableLiveData<>(false);
 
     Retrofit retrofit;
     RPGApiService service;
 
-    //para eliminar;
-    MutableLiveData<Inventory> inventory = new MutableLiveData<>();
 
     public GameViewModel(@NonNull Application application) {
         super(application);
@@ -94,10 +94,13 @@ public class GameViewModel extends AndroidViewModel {
                     @Override
                     public void onCombatFinished(EncounterModel.BattleGround bg) {
                         encounterLocked.postValue(false);
+                        wonEncounter.postValue(true);
                     }
 
                     @Override
                     public void onPlayerDead(EncounterModel.BattleGround bg) {
+                        calculateDamage.postValue(true);
+                        attackLock.postValue(false);
                         playerDead.postValue(true);
                     }
                 });
@@ -105,7 +108,15 @@ public class GameViewModel extends AndroidViewModel {
         });
     }
 
+    public Item rewardPlayer() {
 
+        Random random = new Random();
+        List<Item> itemList = getItemsGame().getValue();
+        Item randomItem = itemList.get(random.nextInt(itemList.size()));
+        inventory.getValue().addItem(randomItem);
+
+        return randomItem;
+    }
 
     // LLAMADAS A LA API
     public void getAllItemsFromDatabase(Context context) {
@@ -115,7 +126,7 @@ public class GameViewModel extends AndroidViewModel {
                 gameModel.getAllItems(service, new GameModel.ItemCallback() {
                     @Override
                     public void onFinishRetrievingItems(List<Item> itemList) {
-                        inventory.postValue(new Inventory(itemList));
+                        itemsGame.postValue(itemList);
                     }
                 }, context);
             }
@@ -205,5 +216,23 @@ public class GameViewModel extends AndroidViewModel {
         this.buttonVisible = buttonVisible;
     }
 
+    public void setInventory(MutableLiveData<Inventory> inventory) {
+        this.inventory = inventory;
+    }
 
+    public MutableLiveData<List<Item>> getItemsGame() {
+        return itemsGame;
+    }
+
+    public void setItemsGame(MutableLiveData<List<Item>> itemsGame) {
+        this.itemsGame = itemsGame;
+    }
+
+    public MutableLiveData<Boolean> getWonEncounter() {
+        return wonEncounter;
+    }
+
+    public void setWonEncounter(MutableLiveData<Boolean> wonEncounter) {
+        this.wonEncounter = wonEncounter;
+    }
 }

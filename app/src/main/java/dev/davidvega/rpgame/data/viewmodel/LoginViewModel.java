@@ -19,6 +19,7 @@ import dev.davidvega.rpgame.game.model.PlayerCharacter;
 import dev.davidvega.rpgame.login.Clase;
 import dev.davidvega.rpgame.net.api.ApiResponse;
 import dev.davidvega.rpgame.net.api.LoginApiService;
+import dev.davidvega.rpgame.net.api.PlayerDataPrimitive;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,6 +79,8 @@ public class LoginViewModel extends AndroidViewModel {
                     RawUser.Data rawUser = response.body().data;
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
+                        PlayerDataPrimitive playerDataPrimitive = objectMapper.readValue(rawUser.playerdata, PlayerDataPrimitive.class);
+
                         PlayerCharacter playerCharacter = objectMapper.readValue(rawUser.playerdata, PlayerCharacter.class);
 
                         User user = new User(
@@ -166,8 +169,9 @@ public class LoginViewModel extends AndroidViewModel {
         Log.d("DEBUG_LOGIN", "User name:"+ user.getUsername() );
         Log.d("DEBUG_LOGIN", "User char name:"+ user.getPlayerdataLiveData().getValue().getName() );
 
+        PlayerDataPrimitive playerDataPrimitive = new PlayerDataPrimitive(user.getPlayerCharacter());
 
-        Call<ApiResponse> createUserCall = service.createUser(user.getUsername(), user.getPlayerCharacter());
+        Call<ApiResponse> createUserCall = service.createUser(user.getUsername(), playerDataPrimitive);
         createUserCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -189,8 +193,9 @@ public class LoginViewModel extends AndroidViewModel {
         Log.d("DEBUG_LOGIN", "User name:"+ user.getUsername() );
         Log.d("DEBUG_LOGIN", "User char name:"+ user.getPlayerdataLiveData().getValue().getName() );
 
+        PlayerDataPrimitive playerDataPrimitive = new PlayerDataPrimitive(user.getPlayerCharacter());
 
-        Call<ApiResponse> createUserCall = service.updateUser(user.getUsername(), user.getPlayerCharacter());
+        Call<ApiResponse> createUserCall = service.updateUser(user.getUsername(), playerDataPrimitive);
         createUserCall.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
