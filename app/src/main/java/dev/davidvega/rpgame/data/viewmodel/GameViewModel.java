@@ -1,6 +1,7 @@
 package dev.davidvega.rpgame.data.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import dev.davidvega.rpgame.data.model.Weapon;
 import dev.davidvega.rpgame.game.encounter.Encounter;
 import dev.davidvega.rpgame.game.encounter.Enemy;
 import dev.davidvega.rpgame.game.model.Inventory;
@@ -18,6 +20,7 @@ import dev.davidvega.rpgame.game.model.Item;
 import dev.davidvega.rpgame.data.model.User;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 import dev.davidvega.rpgame.net.api.RPGApiService;
+import dev.davidvega.rpgame.utils.ImageUtils;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -105,7 +108,7 @@ public class GameViewModel extends AndroidViewModel {
 
 
     // LLAMADAS A LA API
-    public void getAllItemsFromDatabase() {
+    public void getAllItemsFromDatabase(Context context) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -114,7 +117,7 @@ public class GameViewModel extends AndroidViewModel {
                     public void onFinishRetrievingItems(List<Item> itemList) {
                         inventory.postValue(new Inventory(itemList));
                     }
-                });
+                }, context);
             }
         });
     }
@@ -132,6 +135,10 @@ public class GameViewModel extends AndroidViewModel {
             }
         });
     }
+
+
+
+
 
     // GETTER Y SETTERS
 

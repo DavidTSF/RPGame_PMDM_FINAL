@@ -9,12 +9,12 @@ public class Weapon implements Item {
     public int level;
     public int base_damage;
     public String description;
-    public Object image;
+    public String image;
 
     public Weapon() {
     }
 
-    public Weapon(int id_weapon, String name, int level, int base_damage, String description, Object image) {
+    public Weapon(int id_weapon, String name, int level, int base_damage, String description, String image) {
         this.id_weapon = id_weapon;
         this.name = name;
         this.level = level;
@@ -71,14 +71,13 @@ public class Weapon implements Item {
         this.description = description;
     }
 
-    public Object getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Object image) {
+    public void setImage(String image) {
         this.image = image;
     }
-
     @Override
     public String getItemName() {
         return name;

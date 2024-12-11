@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.fasterxml.jackson.core)
     implementation(libs.jackson.annotations)
     implementation(libs.jackson.databind)
+    implementation(kotlin("script-runtime"))
 }
 
 // Configuración de Dokka
