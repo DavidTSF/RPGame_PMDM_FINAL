@@ -16,6 +16,7 @@ public class Weapon extends BaseItem {
     public int base_damage;
 
     public Weapon() {
+        super(ItemType.WEAPON);
     }
 
     public Weapon(int id_weapon, String itemName, int level, int base_damage, String description, String image, ItemType itemType) {
