@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -36,6 +37,15 @@ public class GameFragment extends Fragment {
     //private Fragment inventoryFragment = new InventoryFragment();
     //private Fragment characterFragment = new CharacterFragment();
 
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        gameViewModel.updateUser();
+
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +70,9 @@ public class GameFragment extends Fragment {
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
 
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(getActivity(),binding.drawerLayout,R.string.nav_open,R.string.nav_close);
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
 
 
 

@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import dev.davidvega.rpgame.game.model.Weapon;
 
 public class WeaponList {
-    @SerializedName("weapons")
-    @Expose
     private ArrayList<Weapon> weaponList;
 
-    public ArrayList<Weapon> getResults() {
+    public ArrayList<Weapon> getWeapons() { // Cambia el nombre del método a "getWeapons"
         return weaponList;
     }
-    public void setResults(ArrayList<Weapon> results) {
-        this.weaponList = results;
+
+    public void setWeapons(ArrayList<Weapon> weapons) { // Cambia el setter a "setWeapons"
+        this.weaponList = weapons;
     }
 }

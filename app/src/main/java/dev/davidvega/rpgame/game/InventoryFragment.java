@@ -1,13 +1,16 @@
 package dev.davidvega.rpgame.game;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.helper.widget.Grid;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,16 +22,18 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import dev.davidvega.rpgame.R;
-import dev.davidvega.rpgame.game.model.Weapon;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
 import dev.davidvega.rpgame.databinding.FragmentInventoryBinding;
 import dev.davidvega.rpgame.databinding.ViewholderItemBinding;
+import dev.davidvega.rpgame.game.model.Consumable;
 import dev.davidvega.rpgame.game.model.Inventory;
 import dev.davidvega.rpgame.game.model.Item;
+import dev.davidvega.rpgame.game.model.Weapon;
 
 
 public class InventoryFragment extends Fragment {
     FragmentInventoryBinding binding;
+    GameViewModel gameModelView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,7 @@ public class InventoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        gameModelView = new ViewModelProvider(getActivity()).get(GameViewModel.class);
         return (binding = FragmentInventoryBinding.inflate(inflater, container, false)).getRoot();
     }
 
@@ -46,19 +52,22 @@ public class InventoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        GameViewModel gameModelView = new ViewModelProvider(getActivity()).get(GameViewModel.class);
+
         ItemAdapter itemAdapter = new ItemAdapter();
 
-        binding.itemRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+        binding.itemRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 5));
         binding.itemRecyclerView.setAdapter(itemAdapter);
 
-
-        gameModelView.getInventory().observe(getViewLifecycleOwner(), new Observer<Inventory>() {
+        gameModelView.getUser().getValue().getPlayerdataLiveData().getValue().getInventoryLiveData().observe(getViewLifecycleOwner(), new Observer<Inventory>() {
             @Override
             public void onChanged(Inventory inventory) {
                 itemAdapter.setList(inventory.getInventoryList());
             }
         });
+
+
+
+
     }
 
     class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
@@ -72,21 +81,49 @@ public class InventoryFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ItemViewHolder holder, int position ) {
             Item elemento = elementos.get(position);
-            Weapon weapon = (Weapon) elementos.get(position);
-
-            //holder.binding.nameItem.setText(elemento.getItemName());
+            Item.ItemType elementType = elemento.getItemType();
 
             Glide.with(holder.itemView.getContext())
-                    .load(weapon.getImage()) // Ruta local
-                    .placeholder(R.drawable.arrow_up) // Imagen por defecto mientras se carga
+                    .load(elemento.getImage()) // Ruta local
+                    .placeholder(R.drawable.arrow_up)// Imagen por defecto mientras se carga
                     .into(holder.binding.itemIcon);
 
+            holder.binding.itemIconBackground.getDrawable().setFilterBitmap(false);
             holder.itemView.setOnClickListener(v -> {
-                Toast.makeText(requireContext(), "Seleccionaste: " + elemento.getItemName(), Toast.LENGTH_SHORT).show();
+                binding.selectedItemImage.setImageDrawable(holder.binding.itemIcon.getDrawable());
+                binding.selectedItemDescription.setText(elemento.getDescription());
+
+                switch (elementType){
+                    case CONSUMABLE:
+                        binding.selectedItemUseButton.setText("Usar");
+                        binding.selectedItemUseButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                gameModelView.useConsumable((Consumable) elemento);
+                                elementos.remove(holder.getAdapterPosition());
+                                binding.cardSelectedItem.setVisibility(View.GONE);
+                                notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case WEAPON:
+                        binding.selectedItemUseButton.setText("Equipar");
+                        binding.selectedItemUseButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                elementos.add(gameModelView.equipWeapon((Weapon) elemento));
+                                elementos.remove(holder.getAdapterPosition());
+                                binding.cardSelectedItem.setVisibility(View.GONE);
+                                notifyDataSetChanged();
+                            }
+                        });
+
+                }
 
 
+                binding.cardSelectedItem.setVisibility(View.VISIBLE);
             });
         }
 
@@ -118,4 +155,7 @@ public class InventoryFragment extends Fragment {
             this.binding = binding;
         }
     }
+
+
+
 }

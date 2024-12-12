@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import dev.davidvega.rpgame.data.model.AllItemList;
 import dev.davidvega.rpgame.game.model.Weapon;
 import dev.davidvega.rpgame.data.model.WeaponList;
 import dev.davidvega.rpgame.game.encounter.Encounter;
@@ -30,42 +31,44 @@ public class GameModel {
     }
 
     public void getAllItems(RPGApiService service, ItemCallback callback, Context context) {
-        Call<WeaponList> weaponCall = service.getAllWeapons();
-        weaponCall.enqueue(new Callback<WeaponList>() {
+        Call<AllItemList> weaponCall = service.getAllItems();
+        weaponCall.enqueue(new Callback<AllItemList>() {
             @Override
-            public void onResponse(Call<WeaponList> call, Response<WeaponList> response) {
+            public void onResponse(Call<AllItemList> call, Response<AllItemList> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Item> tmpList = new ArrayList<>();
+
 
                     // Agregar las armas obtenidas de la API
-                    List<Weapon> weapons = response.body().getResults();
+                    List<Item> allItems = response.body().getAllItems();
 
-                    for (Weapon weapon : weapons) {
+
+                    for (Item item : allItems) {
                         // Descargar y guardar la imagen localmente
-                        if (weapon.getImage() != null) {
-                            String fileName = "weapon_" + weapon.getId_weapon() + ".png";
+                        Log.d("DEBUG_GAME_MODEL", item.toString());
 
+                        if (item.getImage() != null) {
+                            String fileName = item.getItemType().toString() + "_" + item.getItemName() + ".png";
 
-                            ImageUtils.saveImageFromUrl(context, weapon.getImage(), fileName);
+                            ImageUtils.saveImageFromUrl(context, item.getImage(), fileName);
 
 
                             // Actualizar la ruta local de la imagen en el objeto Weapon
                             String localImagePath = context.getDir("images", Context.MODE_PRIVATE).getAbsolutePath() + "/" + fileName;
-                            weapon.setImage(localImagePath);
+                            item.setImage(localImagePath);
                         }
 
-                        tmpList.add(weapon); // Añadir el arma con la ruta local actualizada
+
                     }
 
                     // Llamar al callback con la lista actualizada
-                    callback.onFinishRetrievingItems(tmpList);
+                    callback.onFinishRetrievingItems(allItems);
                 } else {
                     Log.e("Error", "Respuesta fallida al obtener armas: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<WeaponList> call, Throwable t) {
+            public void onFailure(Call<AllItemList> call, Throwable t) {
                 Log.e("Error", "Error al llamar a la API: " + t.toString());
             }
         });

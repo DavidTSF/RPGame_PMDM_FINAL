@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import dev.davidvega.rpgame.R;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
 import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
@@ -58,7 +60,13 @@ public class MainGameFragment extends Fragment {
                 if ( isDead ) {
                     Log.d("DEBUG_GAME", "Player is dead, maingamefragment");
                     gameViewModel.getPlayerDead().postValue(false);
+                    gameViewModel.emptyInventory();
+
                     loginViewModel.getHasDied().postValue(true);
+                    binding.layoutCombat.setVisibility(View.GONE);
+                    binding.layoutTrap.setVisibility(View.GONE);
+                    binding.layoutForward.setVisibility(View.GONE);
+
                     binding.mainGamePlayerHp.setProgress( 0 );
                     // Crear un temporizador de 3 segundos
                     binding.deadText.setVisibility(View.VISIBLE);
@@ -103,7 +111,6 @@ public class MainGameFragment extends Fragment {
             }
         });
 
-
         // Botón para avanzar en la dungeon
         binding.mainGameForwardButton.setOnClickListener( item -> {
             binding.layoutForward.setVisibility(View.GONE);
@@ -114,14 +121,10 @@ public class MainGameFragment extends Fragment {
             gameViewModel.setEncounterLocked(true);
         });
 
-
         // Botón para hacer un ataque básico
         binding.mainGameAttack.setOnClickListener(viewAttack -> {
             gameViewModel.makeAttack();
         });
-
-
-
 
         gameViewModel.getUser().getValue().getPlayerdataLiveData().observe(getViewLifecycleOwner(), new Observer<PlayerCharacter>() {
             @Override
@@ -147,8 +150,12 @@ public class MainGameFragment extends Fragment {
             @Override
             public void onChanged(Boolean attackLock) {
                 if ( !attackLock ) {
-                    binding.mainGameEnemyHp.setProgress(currentEncounter.getEnemy().getHp());
-                    binding.mainGameText.setText(currentEncounter.getDescription());
+                    if ( currentEncounter.getEnemy() != null ) {
+                        binding.mainGameEnemyHp.setProgress(currentEncounter.getEnemy().getHp());
+                        binding.mainGameText.setText(currentEncounter.getDescription());
+                    } else {
+                        binding.mainGameEnemyHp.setProgress(0);
+                    }
                 }
             }
         });
@@ -159,6 +166,7 @@ public class MainGameFragment extends Fragment {
                 if ( wonEncounter ) {
                     gameViewModel.getWonEncounter().setValue(false);
                     giveReward();
+                    loginViewModel.updateUserFromGame( gameViewModel.getUser().getValue() );
                 }
             }
         });
@@ -198,7 +206,7 @@ public class MainGameFragment extends Fragment {
 
     private void giveReward() {
         Item item = gameViewModel.rewardPlayer();
-        Toast.makeText(getContext(), "Nombre de item: " + item.getItemName(), Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView() , "Nombre de item: " + item.getItemName(), Snackbar.LENGTH_SHORT).show();
     }
 
 

@@ -74,8 +74,8 @@ public class CharacterCreatorFragment extends Fragment {
                 }
             }
         });
+        binding.characterCreatorButtonCreate.setEnabled(true);
 
-        binding.characterCreatorButtonCreate.setEnabled(true);  // Asegúrate de que el botón esté habilitado inicialmente.
 
         loginViewModel.getCurrentUser().observe(getViewLifecycleOwner(), userStatus -> {
             if (userStatus != null) {
@@ -90,7 +90,6 @@ public class CharacterCreatorFragment extends Fragment {
         // Cuando se de click al boton de crear se va a crear un nuevo usuario con datos y con unas estadisticas según la clase elegida
         binding.characterCreatorButtonCreate.setOnClickListener(v -> {
                 binding.characterCreatorButtonCreate.setEnabled(false);
-
                 loginViewModel.createCharacter(
                     selectedClass, binding.creatorCharacterName.getText().toString()
                 );
@@ -102,6 +101,7 @@ public class CharacterCreatorFragment extends Fragment {
                 if ( passToGame ) {
                         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
                         gameViewModel.getUser().setValue(loginViewModel.getCurrentUser().getValue().user);
+                        gameViewModel.setButtonVisible(true);
                         navController.navigate(R.id.gameFragment);
                         loginViewModel.getPassToGame().postValue(false);
                     }

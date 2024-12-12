@@ -13,7 +13,12 @@ public class LoginModel {
     public void createCharacterWithClass(User user, String characterName, LoginCallback loginCallback) {
 
         PlayerCharacter playerCharacter = PlayerCharacter.baseCharacter(characterName);
-        Clase clase = user.getPlayerCharacter().getPlayerClass();
+
+        if ( user.getPlayerdataLiveData().getValue().getPlayerClass() == null ) {
+            return;
+        }
+
+        Clase clase = user.getPlayerdataLiveData().getValue().getPlayerClass();
         playerCharacter.setPlayerClass(clase);
 
         switch ( clase ) {

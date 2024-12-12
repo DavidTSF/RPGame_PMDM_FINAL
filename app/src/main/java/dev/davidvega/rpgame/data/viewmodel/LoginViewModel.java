@@ -20,11 +20,17 @@ import dev.davidvega.rpgame.login.Clase;
 import dev.davidvega.rpgame.net.api.ApiResponse;
 import dev.davidvega.rpgame.net.api.LoginApiService;
 import dev.davidvega.rpgame.net.api.PlayerDataPrimitive;
+import dev.davidvega.rpgame.net.api.RPGApiService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class LoginViewModel extends AndroidViewModel {
     Executor executor;
@@ -36,9 +42,17 @@ public class LoginViewModel extends AndroidViewModel {
     MutableLiveData<Boolean> passToGame = new MutableLiveData<>(false);
     MutableLiveData<Boolean> hasDied = new MutableLiveData<>(false);
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Setter
+    @Getter
     public static class RawUser {
         boolean exists;
         Data data;
+        @NoArgsConstructor
+        @AllArgsConstructor
+        @Setter
+        @Getter
         public static class Data {
             String username;
             String playerdata;
@@ -59,9 +73,11 @@ public class LoginViewModel extends AndroidViewModel {
     public LoginViewModel(@NonNull Application application) {
         super(application);
         executor = Executors.newSingleThreadExecutor();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.findAndRegisterModules();
         retrofit = new Retrofit.Builder()
-                .baseUrl(LoginApiService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(RPGApiService.BASE_URL)
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .build();
         service = retrofit.create(LoginApiService.class);
         loginModel = new LoginModel();
@@ -69,7 +85,6 @@ public class LoginViewModel extends AndroidViewModel {
 
     public void userLogin( String username) {
         Call<RawUser> userLogin = service.getUserData(username);
-
         // Al tratar de logearse
         userLogin.enqueue(new Callback<RawUser>() {
             @Override
@@ -81,7 +96,11 @@ public class LoginViewModel extends AndroidViewModel {
                         ObjectMapper objectMapper = new ObjectMapper();
                         PlayerDataPrimitive playerDataPrimitive = objectMapper.readValue(rawUser.playerdata, PlayerDataPrimitive.class);
 
-                        PlayerCharacter playerCharacter = objectMapper.readValue(rawUser.playerdata, PlayerCharacter.class);
+                        Log.d("DEBUG_LOGIN_PRIMITIVE", playerDataPrimitive.getInventory().toString());
+
+                        PlayerCharacter playerCharacter = playerDataPrimitive.toPlayerCharacter();
+
+                        Log.d("DEBUG_LOGIN_PLAYER", playerCharacter.toString());
 
                         User user = new User(
                                 rawUser.username,
@@ -93,7 +112,8 @@ public class LoginViewModel extends AndroidViewModel {
                                 user,
                                 false
                         ) );
-                    } catch (IOException e) {
+                    } catch (Exception e) {
+                        e.printStackTrace();
                         throw new RuntimeException(e);
                     }
                 } else {
@@ -116,49 +136,45 @@ public class LoginViewModel extends AndroidViewModel {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                User user = getCurrentUser().getValue().user;
-
-                Boolean playerGotKilled = hasDied.getValue();
-
-                Log.d("DEBUG_CHARACTER_CREATOR", playerGotKilled ? "Ha muerto y a vuelto" : "No ha muerto, acaba de llegar");
-                Log.d("DEBUG_CHARACTER_CREATOR", user.toString());
-
-                if (user.getPlayerCharacter() == null) {
-                    user.setPlayerCharacter(PlayerCharacter.baseCharacter(charName));
-                }
-
-                if (user.getPlayerCharacter().getPlayerClass() == null) {
-                    user.getPlayerCharacter().setPlayerClass(clase);
-                }
-                if ( playerGotKilled ) {
-
-                    user.setPlayerCharacter(PlayerCharacter.baseCharacter(charName));
-                    user.getPlayerCharacter().setPlayerClass(clase);
-
-                    loginModel.createCharacterWithClass(user, charName, updatedUser -> {
-                        currentUser.postValue(new UserStatus(true, updatedUser, false));
-
-                        updateUserAfterDeath(updatedUser);
-                    });
-
-                } else {
-
-                    user.getPlayerCharacter().setPlayerClass(clase);
-
-                    loginModel.createCharacterWithClass(user, charName, updatedUser -> {
-                        currentUser.postValue(new UserStatus(true, updatedUser, false));
-
-                        createUser(updatedUser);
-                    });
-
-                }
-
-
             }
         });
+
+        User user = getCurrentUser().getValue().user;
+        Boolean playerGotKilled = hasDied.getValue();
+
+        Log.d("DEBUG_CHARACTER_CREATOR", playerGotKilled ? "Ha muerto y a vuelto" : "No ha muerto, acaba de llegar");
+        Log.d("DEBUG_CHARACTER_CREATOR", user.toString());
+
+        if (user.getPlayerCharacter() == null) {
+            user.setPlayerCharacter(PlayerCharacter.baseCharacter(charName));
+        }
+        if (user.getPlayerCharacter().getPlayerClass() == null) {
+            user.getPlayerCharacter().setPlayerClass(clase);
+        }
+
+        if ( playerGotKilled ) {
+            Log.d("DEBUG_CHARACTER_CREATOR_BEFORE_SETTING", user.toString());
+            user.setPlayerCharacter(PlayerCharacter.baseCharacter(charName));
+            user.getPlayerCharacter().setPlayerClass(clase);
+
+            Log.d("DEBUG_CHARACTER_CREATOR_AFTER_SETTING", user.toString());
+            loginModel.createCharacterWithClass(user, charName, updatedUser -> {
+                currentUser.setValue(new UserStatus(true, updatedUser, false));
+
+                updateUserAfterDeath(updatedUser);
+            });
+
+        } else {
+
+            user.getPlayerCharacter().setPlayerClass(clase);
+
+            loginModel.createCharacterWithClass(user, charName, updatedUser -> {
+                currentUser.setValue(new UserStatus(true, updatedUser, false));
+                createUser(updatedUser);
+            });
+
+        }
     }
-
-
 
     public void createUser( User user ) {
         if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
@@ -208,6 +224,28 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
+    public void updateUserFromGame( User user ) {
+        if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
+            Log.d("DEBUG_LOGIN_UPDATE_FROM_GAME", "No existe los datos de usuario, de mirar...");
+            return;
+        }
+
+        Log.d("DEBUG_LOGIN", "User name:"+ user.getUsername() );
+        Log.d("DEBUG_LOGIN", "User char name:"+ user.getPlayerdataLiveData().getValue().getName() );
+
+        PlayerDataPrimitive playerDataPrimitive = new PlayerDataPrimitive(user.getPlayerCharacter());
+
+        Call<ApiResponse> createUserCall = service.updateUser(user.getUsername(), playerDataPrimitive);
+        createUserCall.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            }
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.d("Error", "NO SE HA CREAR EL USUARIO" + t.toString());
+            }
+        });
+    }
 
     public MutableLiveData<UserStatus> getCurrentUser() {
         return currentUser;

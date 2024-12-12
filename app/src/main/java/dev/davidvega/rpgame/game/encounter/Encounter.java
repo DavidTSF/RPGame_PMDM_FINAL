@@ -1,8 +1,19 @@
 package dev.davidvega.rpgame.game.encounter;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
 public class Encounter {
     String description;
     typeEncounter encounterType;
+    int difficulty = 1;
     Enemy enemy;
     Trap trap;
 
@@ -18,38 +29,6 @@ public class Encounter {
         this.encounterType = encounterType;
     }
 
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public typeEncounter getEncounterType() {
-        return encounterType;
-    }
-
-    public void setEncounterType(typeEncounter encounterType) {
-        this.encounterType = encounterType;
-    }
-
-    public Enemy getEnemy() {
-        return enemy;
-    }
-
-    public void setEnemy(Enemy enemy) {
-        this.enemy = enemy;
-    }
-
-    public Trap getTrap() {
-        return trap;
-    }
-
-    public void setTrap(Trap trap) {
-        this.trap = trap;
-    }
 
     public String toString() {
         StringBuilder sb = new StringBuilder("[");

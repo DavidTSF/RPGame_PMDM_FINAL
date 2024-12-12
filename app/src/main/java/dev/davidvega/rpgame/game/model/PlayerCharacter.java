@@ -1,16 +1,28 @@
 package dev.davidvega.rpgame.game.model;
 
+import static dev.davidvega.rpgame.MainActivity.fistPngPath;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import java.io.Serializable;
 
 import dev.davidvega.rpgame.login.Clase;
+import dev.davidvega.rpgame.utils.ImageUtils;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class PlayerCharacter implements Serializable, GameEntity {
     Clase playerClass;
     String name;
     int level;
+    int xp;
 
     int maxHp;
     int hp;
@@ -22,52 +34,37 @@ public class PlayerCharacter implements Serializable, GameEntity {
     int dexterity;
     int intelligence;
 
-    Weapon currentWeapon = new Weapon(0, "puños", 0, 1, "Tienes tus puños...", null );
+    Weapon currentWeapon = new Weapon(0, "puños", 0, 1  ,"Tienes tus puños...",
+            fistPngPath,
+            Item.ItemType.WEAPON );
 
     MutableLiveData<Inventory> inventory = new MutableLiveData<>(new Inventory());
 
     public PlayerCharacter() {
 
     }
-    public PlayerCharacter(Clase playerClass) {
+
+    public PlayerCharacter(Clase playerClass, String name, int level, int xp, int maxHp, int hp, int defense, int maxMana, int mana, int strength, int dexterity, int intelligence, Weapon currentWeapon, Inventory inventory) {
         this.playerClass = playerClass;
-    }
-
-    public PlayerCharacter(String name, int level) {
         this.name = name;
         this.level = level;
-    }
-
-    public PlayerCharacter(String name, int level, int maxHp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Inventory inventory) {
-        this.name = name;
-        this.level = level;
+        this.xp = xp;
         this.maxHp = maxHp;
         this.hp = hp;
         this.defense = defense;
-        this.mana = mana;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.intelligence = intelligence;
-        this.inventory.postValue(inventory);
-    }
-
-    public PlayerCharacter(String name, int level, int maxHp, int hp, int defense, int mana, int strength, int dexterity, int intelligence, Weapon currentWeapon, Inventory inventory) {
-        this.name = name;
-        this.level = level;
-        this.maxHp = maxHp;
-        this.hp = hp;
-        this.defense = defense;
+        this.maxMana = maxMana;
         this.mana = mana;
         this.strength = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;
         this.currentWeapon = currentWeapon;
-        this.inventory.postValue(inventory);
+        this.inventory.setValue(inventory);
     }
 
     public static PlayerCharacter baseCharacter ( String name ) {
         PlayerCharacter pc = new PlayerCharacter();
         pc.setName(name);
+        pc.setXp(0);
 
         pc.setLevel(1);
 
@@ -88,32 +85,9 @@ public class PlayerCharacter implements Serializable, GameEntity {
     }
 
 
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    @Override
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     @Override
     public int getAttack() {
-        int attack = 1;
+        int attack = 1 + getCurrentWeapon().base_damage;
 
         switch (playerClass) {
             case Warrior:
@@ -138,50 +112,6 @@ public class PlayerCharacter implements Serializable, GameEntity {
         return attack;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
-    public int getDefense() {
-        return defense;
-    }
-
-    public void setDefense(int defense) {
-        this.defense = defense;
-    }
-
-    public int getMana() {
-        return mana;
-    }
-
-    public void setMana(int mana) {
-        this.mana = mana;
-    }
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public int getDexterity() {
-        return dexterity;
-    }
-
-    public void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
-
     public Inventory getInventory() {
         return inventory.getValue();
     }
@@ -190,45 +120,11 @@ public class PlayerCharacter implements Serializable, GameEntity {
         return inventory;
     }
 
-    public void setInventory(MutableLiveData<Inventory> inventory) {
-        this.inventory = inventory;
-    }
-
-    public Clase getPlayerClass() {
-        return playerClass;
-    }
-
-    public void setPlayerClass(Clase playerClass) {
-        this.playerClass = playerClass;
-    }
-
-    public int getMaxHp() {
-        return maxHp;
-    }
-
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
-
-    public Weapon getCurrentWeapon() {
-        return currentWeapon;
-    }
-
-    public int getMaxMana() {
-        return maxMana;
-    }
-
-    public void setMaxMana(int maxMana) {
-        this.maxMana = maxMana;
-    }
-
-    public void setCurrentWeapon(Weapon currentWeapon) {
-        this.currentWeapon = currentWeapon;
-    }
 
     @NonNull
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        inventory.getValue().toString();
         sb.append("PlayerCharacter {")
                 .append("\n    Name: ").append(name)
                 .append("\n    Class: ").append(playerClass)
@@ -240,7 +136,7 @@ public class PlayerCharacter implements Serializable, GameEntity {
                 .append("\n    Dexterity: ").append(dexterity)
                 .append("\n    Intelligence: ").append(intelligence)
                 .append("\n    Current Weapon: ").append(currentWeapon != null ? currentWeapon : "None")
-                .append("\n    Inventory: ").append(inventory != null ? inventory : "Empty")
+                .append("\n    Inventory: ").append(inventory.getValue().toString())
                 .append("\n}");
         return sb.toString();
     }

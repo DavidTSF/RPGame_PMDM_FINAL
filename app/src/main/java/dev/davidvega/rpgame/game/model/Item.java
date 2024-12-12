@@ -2,16 +2,33 @@ package dev.davidvega.rpgame.game.model;
 
 import androidx.annotation.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Weapon.class, name = "WEAPON"),
+        @JsonSubTypes.Type(value = Consumable.class, name = "CONSUMABLE"),
+        @JsonSubTypes.Type(value = BaseItem.class, name = "GENERIC")
+})
 public interface Item {
 
-    public String getItemName();
-    public ItemType getItemType();
+    String getDescription();
+    void setImage(String image);
+    String getImage();
+    String getItemName();
+    ItemType getItemType();
     @NonNull
-    public String toString();
+    String toString();
 
     public enum ItemType {
         WEAPON,
         CONSUMABLE,
-        ARMOR
+        ARMOR,
+        GENERIC
     }
 }

@@ -1,15 +1,16 @@
 package dev.davidvega.rpgame.game.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Inventory implements Serializable {
-    private List<Item> inventoryList;
+    private List<Item> inventoryList = new ArrayList<>();
 
     public Inventory() {
-        this.inventoryList = new ArrayList<>();
     }
 
     public Inventory(List<Item> inventoryList) {
@@ -20,6 +21,7 @@ public class Inventory implements Serializable {
         inventoryList.add(item);
     }
 
+    @JsonIgnore
     public List<Weapon> getAllWeapon() {
         return inventoryList.stream()
                 .filter(e -> e.getItemType().equals(Item.ItemType.WEAPON) )

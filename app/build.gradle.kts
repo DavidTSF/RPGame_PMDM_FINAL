@@ -52,9 +52,9 @@ dependencies {
     implementation(libs.fasterxml.jackson.core)
     implementation(libs.jackson.annotations)
     implementation(libs.jackson.databind)
+    implementation(libs.converter.jackson)
     compileOnly (libs.projectlombok.lombok)
     annotationProcessor (libs.projectlombok.lombok)
-    implementation(kotlin("script-runtime"))
 }
 
 // Configuración de Dokka

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.0"
+converterJackson = "2.11.0"
 fasterxmlJacksonCore = "2.5.3"
 glide = "4.11.0"
 junit = "4.13.2"
@@ -17,6 +18,7 @@ retrofit = "2.9.0"
 [libraries]
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+converter-jackson = { module = "com.squareup.retrofit2:converter-jackson", version.ref = "converterJackson" }
 fasterxml-jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "fasterxmlJacksonCore" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "fasterxmlJacksonCore" }
