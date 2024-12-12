@@ -55,7 +55,17 @@ public class LoginFragment extends Fragment {
         Button button = binding.loginButton;
 
         button.setOnClickListener(view1 -> {
-            loginViewModel.userLogin(userEntry.getText().toString());
+            if ( binding.loginUsername.length() == 0 ) {
+                binding.loginStatus.setVisibility(View.VISIBLE);
+                binding.loginStatus.setText("Error: no puedes dejarlo vacio");
+
+            } else {
+                binding.loginStatus.setVisibility(View.GONE);
+                binding.loginStatus.setText("");
+
+                loginViewModel.userLogin(userEntry.getText().toString());
+            }
+
         });
 
 

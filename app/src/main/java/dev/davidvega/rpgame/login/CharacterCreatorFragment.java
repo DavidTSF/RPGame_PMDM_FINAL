@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import dev.davidvega.rpgame.R;
 import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
 import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
@@ -89,10 +91,19 @@ public class CharacterCreatorFragment extends Fragment {
 
         // Cuando se de click al boton de crear se va a crear un nuevo usuario con datos y con unas estadisticas según la clase elegida
         binding.characterCreatorButtonCreate.setOnClickListener(v -> {
+            if ( binding.creatorCharacterName.length() == 0 ) {
+                binding.loginStatus.setVisibility(View.VISIBLE);
+                binding.loginStatus.setText("Error: no puedes dejarlo vacio");
+
+            } else {
+                binding.loginStatus.setVisibility(View.GONE);
+                binding.loginStatus.setText("");
+
                 binding.characterCreatorButtonCreate.setEnabled(false);
                 loginViewModel.createCharacter(
-                    selectedClass, binding.creatorCharacterName.getText().toString()
+                        selectedClass, binding.creatorCharacterName.getText().toString()
                 );
+            }
         });
 
         loginViewModel.getPassToGame().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
