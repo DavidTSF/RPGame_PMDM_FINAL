@@ -22,10 +22,22 @@ import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
 import dev.davidvega.rpgame.databinding.FragmentLoginBinding;
 
 
+/**
+ * The type Login fragment.
+ */
 public class LoginFragment extends Fragment {
+    /**
+     * The Binding.
+     */
     FragmentLoginBinding binding;
 
+    /**
+     * The Login view model.
+     */
     LoginViewModel loginViewModel;
+    /**
+     * The Game view model.
+     */
     GameViewModel gameViewModel;
 
     @Override

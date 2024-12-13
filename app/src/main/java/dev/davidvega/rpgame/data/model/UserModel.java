@@ -9,8 +9,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type User model.
+ */
 public class UserModel {
 
+    /**
+     * Update user from game.
+     *
+     * @param service the service
+     * @param user    the user
+     */
     public void updateUserFromGame( LoginApiService service, User user ) {
         if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
             Log.d("DEBUG_LOGIN_UPDATE_FROM_GAME", "No existe los datos de usuario, de mirar...");

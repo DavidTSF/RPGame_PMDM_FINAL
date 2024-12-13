@@ -31,8 +31,17 @@ import dev.davidvega.rpgame.game.model.Item;
 import dev.davidvega.rpgame.game.model.Weapon;
 
 
+/**
+ * The type Inventory fragment.
+ */
 public class InventoryFragment extends Fragment {
+    /**
+     * The Binding.
+     */
     FragmentInventoryBinding binding;
+    /**
+     * The Game model view.
+     */
     GameViewModel gameModelView;
 
     @Override
@@ -70,8 +79,14 @@ public class InventoryFragment extends Fragment {
 
     }
 
+    /**
+     * The type Item adapter.
+     */
     class ItemAdapter extends RecyclerView.Adapter<ItemViewHolder> {
 
+        /**
+         * The Elementos.
+         */
         List<Item> elementos;
 
         @NonNull
@@ -98,24 +113,28 @@ public class InventoryFragment extends Fragment {
                 switch (elementType){
                     case CONSUMABLE:
                         binding.selectedItemUseButton.setText("Usar");
+                        binding.selectedItemAditionalInfo.setText("Poder de curacion: " + ((Consumable)elemento).getPower() );
                         binding.selectedItemUseButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 gameModelView.useConsumable((Consumable) elemento);
                                 elementos.remove(holder.getAdapterPosition());
                                 binding.cardSelectedItem.setVisibility(View.GONE);
+
                                 notifyDataSetChanged();
                             }
                         });
                         break;
                     case WEAPON:
                         binding.selectedItemUseButton.setText("Equipar");
+                        binding.selectedItemAditionalInfo.setText("Daño base: " + ((Weapon)elemento).getBase_damage() );
                         binding.selectedItemUseButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 elementos.add(gameModelView.equipWeapon((Weapon) elemento));
                                 elementos.remove(holder.getAdapterPosition());
                                 binding.cardSelectedItem.setVisibility(View.GONE);
+
                                 notifyDataSetChanged();
                             }
                         });
@@ -132,24 +151,48 @@ public class InventoryFragment extends Fragment {
             return elementos != null ? elementos.size() : 0;
         }
 
+        /**
+         * Sets list.
+         *
+         * @param elementos the elementos
+         */
         public void setList(List<Item> elementos) {
             this.elementos = elementos;
             notifyDataSetChanged();
         }
 
+        /**
+         * Gets item.
+         *
+         * @param posicion the posicion
+         * @return the item
+         */
         public Item getItem(int posicion) {
             return elementos.get(posicion);
         }
 
+        /**
+         * Add item.
+         *
+         * @param item the item
+         */
         public void addItem(Item item) {
             elementos.add(item);
             notifyDataSetChanged();
         }
     }
 
+    /**
+     * The type Item view holder.
+     */
     static class ItemViewHolder extends RecyclerView.ViewHolder {
         private final ViewholderItemBinding binding;
 
+        /**
+         * Instantiates a new Item view holder.
+         *
+         * @param binding the binding
+         */
         public ItemViewHolder(ViewholderItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

@@ -2,12 +2,27 @@ package dev.davidvega.rpgame.game.manager;
 
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 
+/**
+ * The type Experience manager.
+ */
 public class ExperienceManager {
 
+    /**
+     * Gets xp for next level.
+     *
+     * @param currentLevel the current level
+     * @return the xp for next level
+     */
     public static int getXpForNextLevel(int currentLevel) {
         return (int) (Math.pow(currentLevel, 2) * 10 + currentLevel * 35);
     }
 
+    /**
+     * Level up boolean.
+     *
+     * @param player the player
+     * @return the boolean
+     */
     public static boolean levelUp(PlayerCharacter player) {
         int xpNeeded = getXpForNextLevel(player.getLevel());
         if (player.getXp() >= xpNeeded) {
@@ -66,6 +81,12 @@ public class ExperienceManager {
         return false;
     }
 
+    /**
+     * Xp to next level int.
+     *
+     * @param player the player
+     * @return the int
+     */
     public static int xpToNextLevel(PlayerCharacter player) {
         return getXpForNextLevel(player.getLevel()) - player.getXp();
     }

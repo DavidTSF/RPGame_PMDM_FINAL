@@ -12,21 +12,47 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The type Base item.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BaseItem implements Item {
+    /**
+     * The Item name.
+     */
     @JsonProperty("name")
     String itemName;
 
+    /**
+     * The Level.
+     */
     int level;
+    /**
+     * The Description.
+     */
     String description;
+    /**
+     * The Image.
+     */
     String image;
 
+    /**
+     * The Item type.
+     */
     @JsonProperty("type")
     ItemType itemType;
 
+    /**
+     * Instantiates a new Base item.
+     *
+     * @param itemName    the item name
+     * @param level       the level
+     * @param description the description
+     * @param itemType    the item type
+     */
     public BaseItem(String itemName, int level, String description, ItemType itemType) {
         this.itemName = itemName;
         this.level = level;
@@ -34,6 +60,11 @@ public class BaseItem implements Item {
         this.itemType = itemType;
     }
 
+    /**
+     * Instantiates a new Base item.
+     *
+     * @param itemType the item type
+     */
     public BaseItem(ItemType itemType) {
         this.itemType = itemType;
     }
@@ -50,15 +81,30 @@ public class BaseItem implements Item {
     }
 
 
+    /**
+     * Sets item name.
+     *
+     * @param itemName the item name
+     */
     @JsonProperty("name")
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
+    /**
+     * Sets level.
+     *
+     * @param level the level
+     */
     public void setLevel(int level) {
         this.level = level;
     }
 
+    /**
+     * Sets description.
+     *
+     * @param description the description
+     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -67,6 +113,11 @@ public class BaseItem implements Item {
         this.image = image;
     }
 
+    /**
+     * Sets item type.
+     *
+     * @param itemType the item type
+     */
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
     }

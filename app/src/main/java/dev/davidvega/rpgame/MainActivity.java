@@ -26,10 +26,22 @@ import dev.davidvega.rpgame.data.viewmodel.GameViewModel;
 import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
 import dev.davidvega.rpgame.utils.ImageUtils;
 
+/**
+ * The type Main activity.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * The Login view model.
+     */
     LoginViewModel loginViewModel;
+    /**
+     * The Game view model.
+     */
     GameViewModel gameViewModel;
+    /**
+     * The constant fistPngPath.
+     */
     public static String fistPngPath = "";
 
     @Override

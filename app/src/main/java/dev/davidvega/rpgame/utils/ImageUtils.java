@@ -12,9 +12,19 @@ import java.io.FileOutputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * The type Image utils.
+ */
 public class ImageUtils {
 
-    // Método para descargar y guardar la imagen en almacenamiento local
+    /**
+     * Save image from url.
+     *
+     * @param context  the context
+     * @param imageUrl the image url
+     * @param fileName the file name
+     */
+// Método para descargar y guardar la imagen en almacenamiento local
     public static void saveImageFromUrl(Context context, Object imageUrl, String fileName) {
         // Crear un Executor para manejar la descarga en un hilo de fondo
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -43,7 +53,14 @@ public class ImageUtils {
     }
 
 
-    // Método para obtener la imagen almacenada localmente
+    /**
+     * Gets saved image.
+     *
+     * @param context  the context
+     * @param fileName the file name
+     * @return the saved image
+     */
+// Método para obtener la imagen almacenada localmente
     public static Bitmap getSavedImage(Context context, String fileName) {
         File directory = context.getDir("images", Context.MODE_PRIVATE);
         File file = new File(directory, fileName);
@@ -54,7 +71,14 @@ public class ImageUtils {
         return null;
     }
 
-    // Método para verificar si una imagen ya existe
+    /**
+     * Image exists boolean.
+     *
+     * @param context  the context
+     * @param fileName the file name
+     * @return the boolean
+     */
+// Método para verificar si una imagen ya existe
     public static boolean imageExists(Context context, String fileName) {
         File directory = context.getDir("images", Context.MODE_PRIVATE);
         File file = new File(directory, fileName);

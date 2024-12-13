@@ -15,35 +15,101 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+/**
+ * The type Player character.
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 public class PlayerCharacter implements Serializable, GameEntity {
+    /**
+     * The Player class.
+     */
     Clase playerClass;
+    /**
+     * The Name.
+     */
     String name;
+    /**
+     * The Level.
+     */
     int level;
+    /**
+     * The Xp.
+     */
     int xp;
 
+    /**
+     * The Max hp.
+     */
     int maxHp;
+    /**
+     * The Hp.
+     */
     int hp;
+    /**
+     * The Defense.
+     */
     int defense;
+    /**
+     * The Max mana.
+     */
     int maxMana;
+    /**
+     * The Mana.
+     */
     int mana;
 
+    /**
+     * The Strength.
+     */
     int strength;
+    /**
+     * The Dexterity.
+     */
     int dexterity;
+    /**
+     * The Intelligence.
+     */
     int intelligence;
 
+    /**
+     * The Current weapon.
+     */
     Weapon currentWeapon = new Weapon(0, "puños", 0, 1  ,"Tienes tus puños...",
             fistPngPath,
             Item.ItemType.WEAPON );
 
+    /**
+     * The Inventory.
+     */
     MutableLiveData<Inventory> inventory = new MutableLiveData<>(new Inventory());
 
+    /**
+     * Instantiates a new Player character.
+     */
     public PlayerCharacter() {
 
     }
 
+    /**
+     * Instantiates a new Player character.
+     *
+     * @param playerClass   the player class
+     * @param name          the name
+     * @param level         the level
+     * @param xp            the xp
+     * @param maxHp         the max hp
+     * @param hp            the hp
+     * @param defense       the defense
+     * @param maxMana       the max mana
+     * @param mana          the mana
+     * @param strength      the strength
+     * @param dexterity     the dexterity
+     * @param intelligence  the intelligence
+     * @param currentWeapon the current weapon
+     * @param inventory     the inventory
+     */
     public PlayerCharacter(Clase playerClass, String name, int level, int xp, int maxHp, int hp, int defense, int maxMana, int mana, int strength, int dexterity, int intelligence, Weapon currentWeapon, Inventory inventory) {
         this.playerClass = playerClass;
         this.name = name;
@@ -61,6 +127,12 @@ public class PlayerCharacter implements Serializable, GameEntity {
         this.inventory.setValue(inventory);
     }
 
+    /**
+     * Base character player character.
+     *
+     * @param name the name
+     * @return the player character
+     */
     public static PlayerCharacter baseCharacter ( String name ) {
         PlayerCharacter pc = new PlayerCharacter();
         pc.setName(name);
@@ -112,10 +184,20 @@ public class PlayerCharacter implements Serializable, GameEntity {
         return attack;
     }
 
+    /**
+     * Gets inventory.
+     *
+     * @return the inventory
+     */
     public Inventory getInventory() {
         return inventory.getValue();
     }
 
+    /**
+     * Gets inventory live data.
+     *
+     * @return the inventory live data
+     */
     public MutableLiveData<Inventory> getInventoryLiveData() {
         return inventory;
     }

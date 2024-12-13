@@ -19,17 +19,42 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
+/**
+ * The type Game model.
+ */
 public class GameModel {
 
+    /**
+     * The interface Encounter callback.
+     */
     public interface EncounterCallback {
+        /**
+         * On finish retrieving encounter.
+         *
+         * @param encounter the encounter
+         */
         void onFinishRetrievingEncounter(Encounter encounter);
     }
 
+    /**
+     * The interface Item callback.
+     */
     public interface ItemCallback {
+        /**
+         * On finish retrieving items.
+         *
+         * @param itemList the item list
+         */
         void onFinishRetrievingItems(List<Item> itemList);
     }
 
+    /**
+     * Gets all items.
+     *
+     * @param service  the service
+     * @param callback the callback
+     * @param context  the context
+     */
     public void getAllItems(RPGApiService service, ItemCallback callback, Context context) {
         Call<AllItemList> weaponCall = service.getAllItems();
         weaponCall.enqueue(new Callback<AllItemList>() {
@@ -96,6 +121,12 @@ public class GameModel {
         });
     }*/
 
+    /**
+     * Gets encounter.
+     *
+     * @param service  the service
+     * @param callback the callback
+     */
     public void getEncounter(RPGApiService service, EncounterCallback callback ) {
         Call<Encounter> weaponCall = service.getRandomEncounter();
         weaponCall.enqueue(new Callback<Encounter>() {
@@ -110,6 +141,12 @@ public class GameModel {
         });
     }
 
+    /**
+     * Fetch and save weapon image.
+     *
+     * @param context the context
+     * @param weapon  the weapon
+     */
     public void fetchAndSaveWeaponImage(Context context, Weapon weapon) {
         String fileName = "weapon_" + weapon.getId_weapon() + ".png";
 

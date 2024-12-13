@@ -24,11 +24,26 @@ import dev.davidvega.rpgame.data.viewmodel.LoginViewModel;
 import dev.davidvega.rpgame.databinding.FragmentCharacterCreatorBinding;
 
 
+/**
+ * The type Character creator fragment.
+ */
 public class CharacterCreatorFragment extends Fragment {
+    /**
+     * The Binding.
+     */
     FragmentCharacterCreatorBinding binding;
+    /**
+     * The Selected class.
+     */
     Clase selectedClass;
 
+    /**
+     * The Login view model.
+     */
     LoginViewModel loginViewModel;
+    /**
+     * The Game view model.
+     */
     GameViewModel gameViewModel;
 
     @Override

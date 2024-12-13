@@ -27,9 +27,18 @@ import dev.davidvega.rpgame.databinding.FragmentGameBinding;
 import dev.davidvega.rpgame.login.LoginFragment;
 
 
+/**
+ * The type Game fragment.
+ */
 public class GameFragment extends Fragment {
+    /**
+     * The Binding.
+     */
     FragmentGameBinding binding;
 
+    /**
+     * The Game view model.
+     */
     GameViewModel gameViewModel;
 
 

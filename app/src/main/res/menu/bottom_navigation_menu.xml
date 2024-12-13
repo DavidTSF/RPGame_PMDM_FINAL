@@ -2,15 +2,15 @@
 
     <item
         android:id="@+id/inventoryFragment"
-        android:icon="@android:drawable/ic_menu_slideshow"
+        android:icon="@drawable/icon_backpack"
         android:title="Inventory" />
     <item
         android:id="@+id/mainGameFragment"
-        android:icon="@android:drawable/ic_menu_gallery"
-        android:title="Main Game" />
+        android:icon="@drawable/icon_maingame"
+        android:title="Dungeon" />
     <item
         android:id="@+id/characterFragment"
-        android:icon="@android:drawable/ic_menu_slideshow"
+        android:icon="@drawable/icon__character_page"
         android:title="Character" />
 </menu>
 

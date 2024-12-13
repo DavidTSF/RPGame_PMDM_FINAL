@@ -4,12 +4,30 @@ import dev.davidvega.rpgame.data.model.User;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 import dev.davidvega.rpgame.login.Clase;
 
+/**
+ * The type Login model.
+ */
 public class LoginModel {
 
+    /**
+     * The interface Login callback.
+     */
     interface LoginCallback {
+        /**
+         * On created character with class.
+         *
+         * @param user the user
+         */
         void onCreatedCharacterWithClass(User user);
     }
 
+    /**
+     * Create character with class.
+     *
+     * @param user          the user
+     * @param characterName the character name
+     * @param loginCallback the login callback
+     */
     public void createCharacterWithClass(User user, String characterName, LoginCallback loginCallback) {
 
         PlayerCharacter playerCharacter = PlayerCharacter.baseCharacter(characterName);

@@ -32,37 +32,100 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+/**
+ * The type Login view model.
+ */
 public class LoginViewModel extends AndroidViewModel {
+    /**
+     * The Executor.
+     */
     Executor executor;
+    /**
+     * The Retrofit.
+     */
     Retrofit retrofit;
+    /**
+     * The Service.
+     */
     LoginApiService service;
+    /**
+     * The Login model.
+     */
     LoginModel loginModel;
 
+    /**
+     * The Current user.
+     */
     MutableLiveData<UserStatus> currentUser = new MutableLiveData<>();
+    /**
+     * The Pass to game.
+     */
     MutableLiveData<Boolean> passToGame = new MutableLiveData<>(false);
+    /**
+     * The Has died.
+     */
     MutableLiveData<Boolean> hasDied = new MutableLiveData<>(false);
 
+    /**
+     * The type Raw user.
+     */
     @NoArgsConstructor
     @AllArgsConstructor
     @Setter
     @Getter
     public static class RawUser {
+        /**
+         * The Exists.
+         */
         boolean exists;
+        /**
+         * The Data.
+         */
         Data data;
+
+        /**
+         * The type Data.
+         */
         @NoArgsConstructor
         @AllArgsConstructor
         @Setter
         @Getter
         public static class Data {
+            /**
+             * The Username.
+             */
             String username;
+            /**
+             * The Playerdata.
+             */
             String playerdata;
         }
     }
 
+    /**
+     * The type User status.
+     */
     public static class UserStatus {
+        /**
+         * The Logged in.
+         */
         public boolean loggedIn;
+        /**
+         * The User.
+         */
         public User user;
+        /**
+         * The Has to create character.
+         */
         public boolean hasToCreateCharacter;
+
+        /**
+         * Instantiates a new User status.
+         *
+         * @param loggedIn             the logged in
+         * @param user                 the user
+         * @param hasToCreateCharacter the has to create character
+         */
         public UserStatus(boolean loggedIn, User user, boolean hasToCreateCharacter) {
             this.loggedIn = loggedIn;
             this.user = user;
@@ -70,6 +133,11 @@ public class LoginViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Instantiates a new Login view model.
+     *
+     * @param application the application
+     */
     public LoginViewModel(@NonNull Application application) {
         super(application);
         executor = Executors.newSingleThreadExecutor();
@@ -83,6 +151,11 @@ public class LoginViewModel extends AndroidViewModel {
         loginModel = new LoginModel();
     }
 
+    /**
+     * User login.
+     *
+     * @param username the username
+     */
     public void userLogin( String username) {
         Call<RawUser> userLogin = service.getUserData(username);
         // Al tratar de logearse
@@ -132,6 +205,12 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * Create character.
+     *
+     * @param clase    the clase
+     * @param charName the char name
+     */
     public void createCharacter ( Clase clase, String charName ) {
         executor.execute(new Runnable() {
             @Override
@@ -176,6 +255,11 @@ public class LoginViewModel extends AndroidViewModel {
         }
     }
 
+    /**
+     * Create user.
+     *
+     * @param user the user
+     */
     public void createUser( User user ) {
         if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
             Log.d("DEBUG_LOGIN", "No existe los datos de usuario, de mirar...");
@@ -200,6 +284,11 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * Update user after death.
+     *
+     * @param user the user
+     */
     public void updateUserAfterDeath( User user ) {
         if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
             Log.d("DEBUG_LOGIN", "No existe los datos de usuario, de mirar...");
@@ -224,6 +313,11 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * Update user from game.
+     *
+     * @param user the user
+     */
     public void updateUserFromGame( User user ) {
         if (user.getPlayerCharacter() == null || user.getPlayerCharacter().getName() == null) {
             Log.d("DEBUG_LOGIN_UPDATE_FROM_GAME", "No existe los datos de usuario, de mirar...");
@@ -247,22 +341,50 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * Gets current user.
+     *
+     * @return the current user
+     */
     public MutableLiveData<UserStatus> getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * The interface Users callback.
+     */
     public interface UsersCallback {
+        /**
+         * User creado.
+         *
+         * @param user the user
+         */
         void userCreado(User user);
     }
 
+    /**
+     * Gets pass to game.
+     *
+     * @return the pass to game
+     */
     public MutableLiveData<Boolean> getPassToGame() {
         return passToGame;
     }
 
+    /**
+     * Gets has died.
+     *
+     * @return the has died
+     */
     public MutableLiveData<Boolean> getHasDied() {
         return hasDied;
     }
 
+    /**
+     * Sets has died.
+     *
+     * @param hasDied the has died
+     */
     public void setHasDied(MutableLiveData<Boolean> hasDied) {
         this.hasDied = hasDied;
     }

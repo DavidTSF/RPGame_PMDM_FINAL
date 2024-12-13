@@ -20,8 +20,14 @@ import dev.davidvega.rpgame.databinding.FragmentCharacterBinding;
 import dev.davidvega.rpgame.game.manager.ExperienceManager;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 
+/**
+ * The type Character fragment.
+ */
 public class CharacterFragment extends Fragment {
 
+    /**
+     * The Binding.
+     */
     FragmentCharacterBinding binding;
 
     @Override

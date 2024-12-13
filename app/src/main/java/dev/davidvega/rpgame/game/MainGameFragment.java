@@ -33,14 +33,31 @@ import dev.davidvega.rpgame.game.model.Item;
 import dev.davidvega.rpgame.game.model.PlayerCharacter;
 
 
+/**
+ * The type Main game fragment.
+ */
 public class MainGameFragment extends Fragment {
+    /**
+     * The Binding.
+     */
     FragmentMainGameBinding binding;
 
+    /**
+     * The Game view model.
+     */
     GameViewModel gameViewModel;
+    /**
+     * The Login view model.
+     */
     LoginViewModel loginViewModel;
 
-
+    /**
+     * The Player character.
+     */
     PlayerCharacter playerCharacter;
+    /**
+     * The Current encounter.
+     */
     Encounter currentEncounter;
 
     @Override
@@ -196,20 +213,22 @@ public class MainGameFragment extends Fragment {
             }
         });
 
-
-
-
-
-
-
     }
 
     private void giveReward() {
         Item item = gameViewModel.rewardPlayer();
-        Snackbar.make(getView() , "Nombre de item: " + item.getItemName(), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView() , "Has conseguido un/a " + item.getItemName() + " !", Snackbar.LENGTH_SHORT)
+                .setAnchorView(R.id.layoutForward)
+                .show();
+
     }
 
 
+    /**
+     * New encounter.
+     *
+     * @param encounter the encounter
+     */
     public void newEncounter(Encounter encounter){
         binding.mainGameText.setText(encounter.getDescription());
 
@@ -236,7 +255,12 @@ public class MainGameFragment extends Fragment {
     }
 
 
-
+    /**
+     * Sets button icon tint.
+     *
+     * @param button     the button
+     * @param colorResId the color res id
+     */
     public void setButtonIconTint(Button button, int colorResId) {
         Drawable[] drawables = button.getCompoundDrawables();
         Drawable leftDrawable = drawables[1];

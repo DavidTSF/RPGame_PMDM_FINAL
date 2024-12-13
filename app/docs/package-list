@@ -1,0 +1,25 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/EncounterModel.BattleGround///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/EncounterModel.BattleGround.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/EncounterModel.CombatCallback///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/EncounterModel.CombatCallback.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/EncounterModel.ResolveData///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/EncounterModel.ResolveData.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/GameModel.EncounterCallback///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/GameModel.EncounterCallback.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/GameModel.ItemCallback///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/GameModel.ItemCallback.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/LoginViewModel.RawUser.Data///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/LoginViewModel.RawUser.Data.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/LoginViewModel.RawUser///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/LoginViewModel.RawUser.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/LoginViewModel.UserStatus///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/LoginViewModel.UserStatus.html
+$dokka.location:dev.davidvega.rpgame.data.viewmodel/LoginViewModel.UsersCallback///PointingToDeclaration/dev/davidvega/rpgame/data/viewmodel/LoginViewModel.UsersCallback.html
+$dokka.location:dev.davidvega.rpgame.game.encounter/Encounter.typeEncounter///PointingToDeclaration/dev/davidvega/rpgame/game/encounter/Encounter.typeEncounter.html
+$dokka.location:dev.davidvega.rpgame.game.model/Consumable.CONSUMABLE_TYPE///PointingToDeclaration/dev/davidvega/rpgame/game/model/Consumable.CONSUMABLE_TYPE.html
+$dokka.location:dev.davidvega.rpgame.game.model/Item.ItemType///PointingToDeclaration/dev/davidvega/rpgame/game/model/Item.ItemType.html
+dev.davidvega.rpgame
+dev.davidvega.rpgame.data.model
+dev.davidvega.rpgame.data.viewmodel
+dev.davidvega.rpgame.game
+dev.davidvega.rpgame.game.encounter
+dev.davidvega.rpgame.game.manager
+dev.davidvega.rpgame.game.model
+dev.davidvega.rpgame.login
+dev.davidvega.rpgame.net.api
+dev.davidvega.rpgame.utils
+
